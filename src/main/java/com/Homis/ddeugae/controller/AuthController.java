@@ -3,7 +3,7 @@ package com.Homis.ddeugae.controller;
 import com.Homis.ddeugae.dto.ApiResponse;
 import com.Homis.ddeugae.dto.LoginDto;
 import com.Homis.ddeugae.dto.SignupDto;
-import com.Homis.ddeugae.service.UserService;
+import com.Homis.ddeugae.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserService userService;
+    private final AuthService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<?>> signUp(@RequestBody @Valid SignupDto signupRequest ) {
