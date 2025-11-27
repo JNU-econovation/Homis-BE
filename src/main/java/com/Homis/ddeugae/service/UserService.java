@@ -1,0 +1,37 @@
+package com.Homis.ddeugae.service;
+
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
+import com.Homis.ddeugae.dto.SignupDto;
+import com.Homis.ddeugae.entity.User;
+import com.Homis.ddeugae.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+    private final UserRepository userRepository;
+    private final Pbkdf2Encoder pwdEncoder;
+    public void registerUser(SignupDto signupDto){
+        if (userRepository.findByUserName(signupDto.getUserName()).isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATED_USER_NAME);
+        }
+        if (userRepository.findByUserNickname(signupDto.getUserNickname()).isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATED_USER_NICKNAME);
+        }
+
+        if (signupDto.getUserName().equals(signupDto.getUserPassword())){
+            throw new CustomException(ErrorCode.SAME_NAME_PASSWORD);
+        }
+
+        User user = User.builder()
+                .userName(signupDto.getUserName())
+                .userPassword(pwdEncoder.encode(signupDto.getUserPassword()))
+                .userNickname(signupDto.getUserNickname())
+                .build();
+
+        userRepository.save(user);
+    }
+}
