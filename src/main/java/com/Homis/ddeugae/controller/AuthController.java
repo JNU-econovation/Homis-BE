@@ -40,4 +40,8 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(ApiResponse.success("200", "로그인 성공", loginData));
     }
+
+    // TODO - /refresh 리프레시 토큰을 통한 액세스 토큰 재발급
+
+    // TODO - /logout 로그아웃 api 명세 작성, 구현 => refreshToken 쿠키 삭제 + DB 레코드 삭제
 }
