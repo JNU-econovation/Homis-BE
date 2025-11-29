@@ -63,7 +63,7 @@ public class AuthService {
         // 로그인 response 데이터 생성
         final JwtTokenDto jwtToken = jwtUtil.createLoginResponse(userName, userNickname);
 
-        // TODO - refresh 토큰 user 테이블에 저장
+        // refresh 토큰 user 테이블에 저장
 
         return jwtToken;
     }

@@ -25,8 +25,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userNickname;
 
-    @Column
-    private String refreshToken;
+//    @Column
+//    private String refreshToken;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
