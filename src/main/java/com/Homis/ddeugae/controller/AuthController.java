@@ -44,5 +44,17 @@ public class AuthController {
 
     // TODO - /refresh 리프레시 토큰을 통한 액세스 토큰 재발급
 
-    // TODO - /logout 로그아웃 api 명세 작성, 구현 => refreshToken 쿠키 삭제 + DB 레코드 삭제
+    // 로그아웃 API
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<?>> logOut(){
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true).secure(false).sameSite("None") // TODO - 배포 시 true 변경
+                .path("/api/auth/refresh")
+                .maxAge(0)  // 리프레시 토큰은 3개월 유효
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(ApiResponse.success("200", "로그아웃 성공"));
+    }
 }
