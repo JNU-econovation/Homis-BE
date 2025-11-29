@@ -34,7 +34,7 @@ public class AuthController {
         LoginRespDto loginData = new LoginRespDto(jwtToken.getAccessToken(), jwtToken.getUserNickname());
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", jwtToken.getRefreshToken())
-                .httpOnly(true).secure(true).sameSite("None")
+                .httpOnly(true).secure(false).sameSite("None") // TODO - 배포 시 true 변경
                 .path("/api/auth/refresh")
                 .maxAge(60 * 60 * 24 * 90)  // 리프레시 토큰은 3개월 유효
                 .build();
