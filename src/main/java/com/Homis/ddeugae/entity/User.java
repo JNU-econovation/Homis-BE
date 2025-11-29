@@ -19,7 +19,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String userPassword;
 
     @Column(nullable = false, unique = true)
