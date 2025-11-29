@@ -1,9 +1,6 @@
 package com.Homis.ddeugae.controller;
 
-import com.Homis.ddeugae.dto.ApiResponse;
-import com.Homis.ddeugae.dto.JwtTokenDto;
-import com.Homis.ddeugae.dto.LoginDto;
-import com.Homis.ddeugae.dto.SignupDto;
+import com.Homis.ddeugae.dto.*;
 import com.Homis.ddeugae.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +25,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<?>> logIn(@RequestBody @Valid LoginDto loginRequest) {
+    public ResponseEntity<ApiResponse<?>> logIn(@RequestBody @Valid LoginReqDto loginRequest) {
 
-        JwtTokenDto loginData = authService.userLogin(loginRequest);
+        JwtTokenDto jwtToken = authService.userLogin(loginRequest);
 
-        ResponseCookie cookie = ResponseCookie.from(loginData.getRefreshToken())
+        LoginRespDto loginData = new LoginRespDto(jwtToken.getAccessToken(), jwtToken.getUserNickname());
+
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", jwtToken.getRefreshToken())
                 .httpOnly(true).secure(true).sameSite("None")
-                .path("/api/auth/refresh").maxAge(60 * 60 * 24 * 90).build(); // 리프레시 토큰은 3개월 유효
+                .path("/api/auth/refresh")
+                .maxAge(60 * 60 * 24 * 90)  // 리프레시 토큰은 3개월 유효
+                .build();
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
