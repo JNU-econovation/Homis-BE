@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // ---400
     SAME_NAME_PASSWORD(HttpStatus.BAD_REQUEST, "001_SAME_NAME_PASSWORD", "ID와 비밀번호는 같을 수 없습니다."),
-    WRONG_PWD(HttpStatus.BAD_REQUEST, "002_WRONG_PWD", "비밀번호가 틀렸습니다."),
 
     // ---401
     NOT_USER(HttpStatus.UNAUTHORIZED, "101_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
@@ -19,6 +18,7 @@ public enum ErrorCode {
     // ---409
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "901_DUPLICATED_USER_NAME", "이미 등록된 아이디"),
     DUPLICATED_USER_NICKNAME(HttpStatus.CONFLICT,"902_DUPLICATED_USER_NICKNAME", "이미 등록된 닉네임"),
+    WRONG_PWD(HttpStatus.CONFLICT, "903_WRONG_PWD", "비밀번호가 틀렸습니다."),
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),
