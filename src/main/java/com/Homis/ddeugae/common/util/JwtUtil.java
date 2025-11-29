@@ -25,7 +25,7 @@ public class JwtUtil {
                 .claim("userNickname", nickName)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 7200000)) // 3시간 유효
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
 
         return accessToken;
@@ -37,7 +37,7 @@ public class JwtUtil {
                 .claim("userNickname", nickName)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 90 * 1000L)) // 3개월 유효
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
 
         return refreshToken;
