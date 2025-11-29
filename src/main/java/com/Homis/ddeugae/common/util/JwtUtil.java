@@ -19,8 +19,9 @@ public class JwtUtil {
     private final SecretKey secretKey =
             Keys.hmacShaKeyFor(Decoders.BASE64.decode(homisJwtKey));
 
-    public String createAccessToken(String nickName){
+    public String createAccessToken(String userName, String nickName){
         final String accessToken = Jwts.builder()
+                .claim("userName", userName)
                 .claim("userNickname", nickName)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 7200000)) // 3시간 유효
@@ -30,8 +31,9 @@ public class JwtUtil {
         return accessToken;
     }
 
-    public String createRefreshToken(String nickName){
+    public String createRefreshToken(String userName, String nickName){
         String refreshToken = Jwts.builder()
+                .claim("userName", userName)
                 .claim("userNickname", nickName)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 90 * 1000L)) // 3개월 유효
@@ -41,9 +43,9 @@ public class JwtUtil {
         return refreshToken;
     }
 
-    public JwtTokenDto createLoginResponse(String nickName){
-        final String access = createAccessToken(nickName);
-        final String refresh = createRefreshToken(nickName);
+    public JwtTokenDto createLoginResponse(String userName, String nickName){
+        final String access = createAccessToken(userName, nickName);
+        final String refresh = createRefreshToken(userName, nickName);
 
         return new JwtTokenDto(access, refresh, nickName);
     }
