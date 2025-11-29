@@ -13,11 +13,11 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secretKey}")
-    private String homisJwtKey;
+    private final SecretKey secretKey;
 
-    private final SecretKey secretKey =
-            Keys.hmacShaKeyFor(Decoders.BASE64.decode(homisJwtKey));
+    public JwtUtil(@Value("${jwt.secretKey}") String homisJwtKey) {
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(homisJwtKey));
+    }
 
     public String createAccessToken(String userName, String nickName){
         final String accessToken = Jwts.builder()
