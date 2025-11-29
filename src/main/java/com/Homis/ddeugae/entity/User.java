@@ -25,6 +25,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userNickname;
 
+    @Column
+    private String refreshToken;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
