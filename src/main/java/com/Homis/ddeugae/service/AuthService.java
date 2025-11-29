@@ -2,12 +2,14 @@ package com.Homis.ddeugae.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.util.JwtUtil;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
 import com.Homis.ddeugae.dto.JwtTokenDto;
-import com.Homis.ddeugae.dto.LoginDto;
+import com.Homis.ddeugae.dto.LoginReqDto;
 import com.Homis.ddeugae.dto.SignupDto;
 import com.Homis.ddeugae.entity.User;
 import com.Homis.ddeugae.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final Pbkdf2Encoder pwdEncoder;
+    private final JwtUtil jwtUtil;
+
     public void registerUser(SignupDto signupDto){
         if (userRepository.findByUserName(signupDto.getUserName()).isPresent()){
             throw new CustomException(ErrorCode.DUPLICATED_USER_NAME);
@@ -37,10 +41,29 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public JwtTokenDto userLogin(LoginDto loginDto){
-        // 아이디 일치 확인
+    public JwtTokenDto userLogin(LoginReqDto loginDto){
+        final String userName = loginDto.getUserName();
+        final String userPassword = loginDto.getUserPassword();
+
+        // 존재하는 사용자인지 확인
+        if (userRepository.findByUserName(userName).isEmpty()){
+            throw new CustomException(ErrorCode.NOT_USER);
+        }
+        final User userDoc = userRepository.findByUserName(userName).get();
+
         // 비밀번호 일치 확인 (pwdEncoder 사용)
-        // jwt 토큰 발급
-        return ;// 토큰 dto 반환
+        final String hashedPwd = userDoc.getUserPassword();
+        if (!pwdEncoder.matches(userPassword, hashedPwd)){
+            throw new CustomException(ErrorCode.WRONG_PWD);
+        }
+
+        // 닉네임 조회
+        final String userNickname = userDoc.getUserNickname();
+
+        // 로그인 response 데이터 생성
+        @Valid
+        final JwtTokenDto jwtToken = jwtUtil.createLoginResponse(userNickname);
+
+        return jwtToken;
     }
 }
