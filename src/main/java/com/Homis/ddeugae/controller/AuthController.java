@@ -27,8 +27,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<?>> logIn(@RequestBody @Valid LoginReqDto loginRequest) {
 
+        @Valid
         JwtTokenDto jwtToken = authService.userLogin(loginRequest);
 
+        @Valid
         LoginRespDto loginData = new LoginRespDto(jwtToken.getAccessToken(), jwtToken.getUserNickname());
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", jwtToken.getRefreshToken())
