@@ -28,6 +28,9 @@ public class User {
 //    @Column
 //    private String refreshToken;
 
+    @Column
+    private String userProfileImgUrl;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
