@@ -33,5 +33,14 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("400", message));
     }
 
+    // 생성자에서 null값 등 입력값 잘못된 오류 처리
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<?>> validHandler(IllegalArgumentException Ie) {
+        String message = Ie.getMessage();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error("500", message));
+    }
+
 
 }
