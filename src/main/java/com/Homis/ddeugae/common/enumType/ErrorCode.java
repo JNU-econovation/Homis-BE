@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // ---400
     SAME_NAME_PASSWORD(HttpStatus.BAD_REQUEST, "001_SAME_NAME_PASSWORD", "ID와 비밀번호는 같을 수 없습니다."),
+    NOT_USER(HttpStatus.BAD_REQUEST, "002_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
 
     // ---401
-    NOT_USER(HttpStatus.UNAUTHORIZED, "101_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
     EXPIRED_ACCESS(HttpStatus.UNAUTHORIZED, "102_EXPIRED_ACCESS", "액세스토큰이 만료되었습니다. 재발급 필요"),
     REQUIRED_RE_LOGIN(HttpStatus.UNAUTHORIZED, "103_REQUIRED_RE_LOGIN", "리프레시토큰까지 만료되었습니다. 재로그인 필요"),
 
