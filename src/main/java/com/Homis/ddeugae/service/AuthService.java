@@ -57,11 +57,12 @@ public class AuthService {
             throw new CustomException(ErrorCode.WRONG_PWD);
         }
 
-        // 닉네임 조회
+        // 데이터 Id, 닉네임 조회
+        final Long userDataId = userDoc.getUserDataId();
         final String userNickname = userDoc.getUserNickname();
 
         // 로그인 response 데이터 생성
-        final JwtTokenDto jwtToken = jwtUtil.createLoginResponse(userName, userNickname);
+        final JwtTokenDto jwtToken = jwtUtil.createLoginResponse(userDataId, userNickname);
 
         // refresh 토큰 user 테이블에 저장
 
