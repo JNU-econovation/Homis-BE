@@ -33,5 +33,5 @@ out/
 /nbdist/
 /.nb-gradle/
 
-# aws
-application.properties
+# for local test
+application-local.properties
