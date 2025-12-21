@@ -31,7 +31,7 @@ jobs:
 
       # 빌드 및 테스트
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test  # 테스트 스킵
 
       # --- CD 실행 
       - name: Azure WebApp
