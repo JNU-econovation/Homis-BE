@@ -1,8 +1,8 @@
 package com.Homis.ddeugae.Auth.controller;
 
 import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
-import com.Homis.ddeugae.Auth.dto.LoginReqDto;
-import com.Homis.ddeugae.Auth.dto.LoginRespDto;
+import com.Homis.ddeugae.Auth.dto.LoginReq;
+import com.Homis.ddeugae.Auth.dto.LoginResp;
 import com.Homis.ddeugae.Auth.dto.SignupDto;
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import com.Homis.ddeugae.Auth.service.AuthService;
@@ -29,11 +29,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<?>> logIn(@RequestBody @Valid LoginReqDto loginRequest) {
+    public ResponseEntity<ApiResponse<?>> logIn(@RequestBody @Valid LoginReq loginRequest) {
 
         JwtTokenDto jwtToken = authService.userLogin(loginRequest);
 
-        LoginRespDto loginData = new LoginRespDto(jwtToken.getAccessToken(), jwtToken.getUserNickname());
+        LoginResp loginData = new LoginResp(jwtToken.getAccessToken(), jwtToken.getUserNickname());
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", jwtToken.getRefreshToken())
                 .httpOnly(true).secure(false).sameSite("None") // TODO - 배포 시 true 변경

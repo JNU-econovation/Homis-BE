@@ -5,7 +5,7 @@ import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.util.JwtUtil;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
 import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
-import com.Homis.ddeugae.Auth.dto.LoginReqDto;
+import com.Homis.ddeugae.Auth.dto.LoginReq;
 import com.Homis.ddeugae.Auth.dto.SignupDto;
 import com.Homis.ddeugae.Auth.entity.User;
 import com.Homis.ddeugae.Auth.repository.UserRepository;
@@ -40,7 +40,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public JwtTokenDto userLogin(LoginReqDto loginDto){
+    public JwtTokenDto userLogin(LoginReq loginDto){
         final String userName = loginDto.getUserName();
         final String userPassword = loginDto.getUserPassword();
 
