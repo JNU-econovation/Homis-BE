@@ -34,4 +34,4 @@ out/
 /.nb-gradle/
 
 # for local test
-application-local.properties
+**/application-local.properties
