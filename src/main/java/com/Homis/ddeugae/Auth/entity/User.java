@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.entity;
+package com.Homis.ddeugae.Auth.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

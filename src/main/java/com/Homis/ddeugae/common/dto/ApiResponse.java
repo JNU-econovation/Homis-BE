@@ -1,9 +1,8 @@
-package com.Homis.ddeugae.dto;
+package com.Homis.ddeugae.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter

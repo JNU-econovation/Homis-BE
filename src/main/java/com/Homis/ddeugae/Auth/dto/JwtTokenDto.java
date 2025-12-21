@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.dto;
+package com.Homis.ddeugae.Auth.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,15 +1,14 @@
-package com.Homis.ddeugae.service;
+package com.Homis.ddeugae.Auth.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.util.JwtUtil;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
-import com.Homis.ddeugae.dto.JwtTokenDto;
-import com.Homis.ddeugae.dto.LoginReqDto;
-import com.Homis.ddeugae.dto.SignupDto;
-import com.Homis.ddeugae.entity.User;
-import com.Homis.ddeugae.repository.UserRepository;
-import jakarta.validation.Valid;
+import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
+import com.Homis.ddeugae.Auth.dto.LoginReqDto;
+import com.Homis.ddeugae.Auth.dto.SignupDto;
+import com.Homis.ddeugae.Auth.entity.User;
+import com.Homis.ddeugae.Auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

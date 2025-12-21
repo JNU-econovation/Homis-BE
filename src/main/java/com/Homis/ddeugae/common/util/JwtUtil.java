@@ -1,9 +1,8 @@
 package com.Homis.ddeugae.common.util;
 
-import com.Homis.ddeugae.dto.JwtTokenDto;
+import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

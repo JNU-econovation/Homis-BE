@@ -1,7 +1,11 @@
-package com.Homis.ddeugae.controller;
+package com.Homis.ddeugae.Auth.controller;
 
-import com.Homis.ddeugae.dto.*;
-import com.Homis.ddeugae.service.AuthService;
+import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
+import com.Homis.ddeugae.Auth.dto.LoginReqDto;
+import com.Homis.ddeugae.Auth.dto.LoginRespDto;
+import com.Homis.ddeugae.Auth.dto.SignupDto;
+import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.Auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
