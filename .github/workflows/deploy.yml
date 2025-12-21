@@ -29,11 +29,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-	  # 빌드 및 테스트
+      # 빌드 및 테스트
       - name: Build with Gradle
         run: ./gradlew build
 
-	  # --- CD 실행 
+      # --- CD 실행 
       - name: Azure WebApp
         uses: Azure/webapps-deploy@v3
         with:
