@@ -1,6 +1,6 @@
 package com.Homis.ddeugae.common.handler;
 
-import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import org.springframework.http.HttpStatus;

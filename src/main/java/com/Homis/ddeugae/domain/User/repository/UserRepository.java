@@ -1,6 +1,6 @@
-package com.Homis.ddeugae.Auth.repository;
+package com.Homis.ddeugae.domain.User.repository;
 
-import com.Homis.ddeugae.Auth.entity.User;
+import com.Homis.ddeugae.domain.User.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

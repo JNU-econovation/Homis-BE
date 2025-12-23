@@ -1,7 +1,8 @@
-package com.Homis.ddeugae.common.util;
+package com.Homis.ddeugae.common.handler;
 
-import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.domain.Auth.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -11,12 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.naming.AuthenticationException;
-
 @Component
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     private String getBearerToken(final String bearer){
         if (bearer == null || !bearer.startsWith("Bearer ")){
@@ -37,7 +36,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         final String accessToken = getBearerToken(authorization);
 
         try{
-            Claims claim = jwtUtil.extractToken(accessToken);
+            Claims claim = jwtProvider.extractToken(accessToken);
             final Long userDataId = ((Number) claim.get("userDataId")).longValue();
             final String userNickname = claim.get("userNickname").toString();
 

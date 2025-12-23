@@ -1,6 +1,6 @@
-package com.Homis.ddeugae.common.util;
+package com.Homis.ddeugae.domain.Auth.jwt;
 
-import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
+import com.Homis.ddeugae.domain.Auth.dto.JwtTokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -12,10 +12,10 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
-public class JwtUtil {
+public class JwtProvider {
     private final SecretKey secretKey;
 
-    public JwtUtil(@Value("${jwt.secretKey}") String homisJwtKey) {
+    public JwtProvider(@Value("${jwt.secretKey}") String homisJwtKey) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(homisJwtKey));
     }
 

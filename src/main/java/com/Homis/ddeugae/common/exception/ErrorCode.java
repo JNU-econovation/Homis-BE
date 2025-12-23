@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.common.enumType;
+package com.Homis.ddeugae.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

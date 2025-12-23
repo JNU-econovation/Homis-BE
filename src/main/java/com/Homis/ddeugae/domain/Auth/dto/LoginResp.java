@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.Auth.dto;
+package com.Homis.ddeugae.domain.Auth.dto;
 
 import lombok.Getter;
 

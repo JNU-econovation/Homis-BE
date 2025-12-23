@@ -1,14 +1,14 @@
-package com.Homis.ddeugae.Auth.service;
+package com.Homis.ddeugae.domain.Auth.service;
 
-import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.util.JwtUtil;
+import com.Homis.ddeugae.domain.Auth.jwt.JwtProvider;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
-import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
-import com.Homis.ddeugae.Auth.dto.LoginReq;
-import com.Homis.ddeugae.Auth.dto.SignupDto;
-import com.Homis.ddeugae.Auth.entity.User;
-import com.Homis.ddeugae.Auth.repository.UserRepository;
+import com.Homis.ddeugae.domain.Auth.dto.JwtTokenDto;
+import com.Homis.ddeugae.domain.Auth.dto.LoginReq;
+import com.Homis.ddeugae.domain.Auth.dto.SignupDto;
+import com.Homis.ddeugae.domain.User.entity.User;
+import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final Pbkdf2Encoder pwdEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtProvider jwtProvider;
 
     public void registerUser(SignupDto signupDto){
         if (userRepository.findByUserName(signupDto.getUserName()).isPresent()){
@@ -61,7 +61,7 @@ public class AuthService {
         final String userNickname = userDoc.getUserNickname();
 
         // 로그인 response 데이터 생성
-        final JwtTokenDto jwtToken = jwtUtil.createLoginResponse(userDataId, userNickname);
+        final JwtTokenDto jwtToken = jwtProvider.createLoginResponse(userDataId, userNickname);
 
         // refresh 토큰 user 테이블에 저장
 
