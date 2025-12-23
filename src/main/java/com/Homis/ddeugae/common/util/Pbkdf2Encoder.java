@@ -1,6 +1,6 @@
 package com.Homis.ddeugae.common.util;
 
-import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value; // Lombok으로 하면 안됨!!!

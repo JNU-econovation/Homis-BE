@@ -1,5 +1,6 @@
-package com.Homis.ddeugae.common.util;
+package com.Homis.ddeugae.common.config;
 
+import com.Homis.ddeugae.common.handler.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
