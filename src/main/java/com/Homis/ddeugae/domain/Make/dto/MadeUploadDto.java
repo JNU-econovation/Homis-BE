@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.Make.dto;
+package com.Homis.ddeugae.domain.Make.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

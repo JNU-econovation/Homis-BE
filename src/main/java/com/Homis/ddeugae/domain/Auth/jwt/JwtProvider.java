@@ -1,6 +1,6 @@
-package com.Homis.ddeugae.Auth.jwt;
+package com.Homis.ddeugae.domain.Auth.jwt;
 
-import com.Homis.ddeugae.Auth.dto.JwtTokenDto;
+import com.Homis.ddeugae.domain.Auth.dto.JwtTokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

@@ -1,6 +1,6 @@
-package com.Homis.ddeugae.Make.controller;
+package com.Homis.ddeugae.domain.Make.controller;
 
-import com.Homis.ddeugae.Make.dto.MadeUploadDto;
+import com.Homis.ddeugae.domain.Make.dto.MadeUploadDto;
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
