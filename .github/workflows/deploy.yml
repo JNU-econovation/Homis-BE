@@ -4,8 +4,6 @@ name: Java CI with Gradle
 on:
   push:
     branches: ["dev"]
-  pull_request:
-    branches: ["dev"]
 
 env:
   AZURE_APP_NAME: homis-be
@@ -30,12 +28,12 @@ jobs:
         run: chmod +x gradlew
 
       # 빌드 디렉토리 정리
-      
+
       # 빌드 및 테스트
       - name: Build with Gradle
         run: ./gradlew clean build -x test  # 이전 내용 삭제, 테스트 스킵하여 빌드
 
-      # --- CD 실행 
+      # --- CD 실행
       - name: Azure WebApp
         uses: Azure/webapps-deploy@v3
         with:
