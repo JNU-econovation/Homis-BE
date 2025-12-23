@@ -15,7 +15,7 @@ import java.util.List;
 public class MadeUploadDto {
 
     @NotNull(message = "도안명은 공백일 수 없습니다.")
-    @Length(min=1, max=25, message = "도안명은 최대 25자까지만 가능합니다.")
+    @Length(min=1, max=10, message = "도안명은 최대 10자까지만 가능합니다.")
     private String madeName;
 
     @NotNull(message = "도안 규격 값이 없습니다.")
