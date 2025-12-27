@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class SignupDto {
+public class SignupReq {
 
     @NotNull(message = "ID 값이 없습니다.")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "ID는 영문과 숫자만 가능합니다.")

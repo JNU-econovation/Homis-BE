@@ -3,7 +3,7 @@ package com.Homis.ddeugae.domain.Auth.controller;
 import com.Homis.ddeugae.domain.Auth.dto.JwtTokenDto;
 import com.Homis.ddeugae.domain.Auth.dto.LoginReq;
 import com.Homis.ddeugae.domain.Auth.dto.LoginResp;
-import com.Homis.ddeugae.domain.Auth.dto.SignupDto;
+import com.Homis.ddeugae.domain.Auth.dto.SignupReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import com.Homis.ddeugae.domain.Auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<?>> signUp(@RequestBody @Valid SignupDto signupRequest ) {
+    public ResponseEntity<ApiResponse<?>> signUp(@RequestBody @Valid SignupReq signupRequest ) {
         authService.registerUser(signupRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "회원가입 성공"));

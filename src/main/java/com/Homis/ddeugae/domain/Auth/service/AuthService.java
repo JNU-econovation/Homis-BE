@@ -6,7 +6,7 @@ import com.Homis.ddeugae.domain.Auth.jwt.JwtProvider;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;
 import com.Homis.ddeugae.domain.Auth.dto.JwtTokenDto;
 import com.Homis.ddeugae.domain.Auth.dto.LoginReq;
-import com.Homis.ddeugae.domain.Auth.dto.SignupDto;
+import com.Homis.ddeugae.domain.Auth.dto.SignupReq;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +19,22 @@ public class AuthService {
     private final Pbkdf2Encoder pwdEncoder;
     private final JwtProvider jwtProvider;
 
-    public void registerUser(SignupDto signupDto){
-        if (userRepository.findByUserName(signupDto.getUserName()).isPresent()){
+    public void registerUser(SignupReq signupReq){
+        if (userRepository.findByUserName(signupReq.getUserName()).isPresent()){
             throw new CustomException(ErrorCode.DUPLICATED_USER_NAME);
         }
-        if (userRepository.findByUserNickname(signupDto.getUserNickname()).isPresent()){
+        if (userRepository.findByUserNickname(signupReq.getUserNickname()).isPresent()){
             throw new CustomException(ErrorCode.DUPLICATED_USER_NICKNAME);
         }
 
-        if (signupDto.getUserName().equals(signupDto.getUserPassword())){
+        if (signupReq.getUserName().equals(signupReq.getUserPassword())){
             throw new CustomException(ErrorCode.SAME_NAME_PASSWORD);
         }
 
         User user = User.builder()
-                .userName(signupDto.getUserName())
-                .userPassword(pwdEncoder.encode(signupDto.getUserPassword()))
-                .userNickname(signupDto.getUserNickname())
+                .userName(signupReq.getUserName())
+                .userPassword(pwdEncoder.encode(signupReq.getUserPassword()))
+                .userNickname(signupReq.getUserNickname())
                 .build();
 
         userRepository.save(user);
