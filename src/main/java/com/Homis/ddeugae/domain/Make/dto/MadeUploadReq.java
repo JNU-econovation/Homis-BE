@@ -8,11 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class MadeUploadDto {
+public class MadeUploadReq {
 
     @Length(max=10, message = "도안명은 최대 10자까지만 가능합니다.")
     private String madeName;
