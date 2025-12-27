@@ -26,5 +26,4 @@ public class MadeUploadDto {
     private String madeDesign;
 
     private String script;
-    private List<String> download;
 }
