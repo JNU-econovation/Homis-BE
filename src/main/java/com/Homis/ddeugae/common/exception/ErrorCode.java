@@ -25,7 +25,8 @@ public enum ErrorCode {
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),
-    FAILED_HASHING_PWD(HttpStatus.INTERNAL_SERVER_ERROR, "002_FAILED_HASHING_PWD", "비밀번호 해싱 중 실패");
+    FAILED_HASHING_PWD(HttpStatus.INTERNAL_SERVER_ERROR, "002_FAILED_HASHING_PWD", "비밀번호 해싱 중 실패"),
+    FAILED_DOWNLOAD_IMG(HttpStatus.INTERNAL_SERVER_ERROR, "003_FAILED_DOWNLOAD_IMG", "이미지 다운로드 실패");
     private final HttpStatus status;
     private final String code;
     private final String message;
