@@ -5,7 +5,7 @@ import org.springframework.web.client.RestClient;
 
 @Service
 public class HtmlRenderService {
-    
+
     private final RestClient restClient;
 
     public HtmlRenderService(RestClient.Builder builder){
