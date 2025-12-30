@@ -28,7 +28,7 @@ public class MadeDesignImageService {
         }
     }
 
-    public String createAndStoreImage(String previewUrl) {
+    public String createAndStoreImage(String previewUrl) { // blob storage url 반환
 
         // WebSnapAPI로 URL -> image_url 반환
         String websnapImageUrl = htmlRenderService.captureDesign(previewUrl, websnapToken);
