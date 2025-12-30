@@ -27,7 +27,7 @@ public class Made {
     @Column(nullable = false)
     private String madeImgUrl;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String madeDetail;
 
     @Column(nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
