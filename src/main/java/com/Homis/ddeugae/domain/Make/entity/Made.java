@@ -30,7 +30,7 @@ public class Made {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String madeDetail;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
     private LocalDateTime createdAt;
 
     @ManyToOne
