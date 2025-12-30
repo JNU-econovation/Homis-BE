@@ -22,6 +22,6 @@ public class MakeService {
         String target_url = uploadReq.getDesignPreviewUrl();
         String design_image_url = madeDesignImageService.createAndStoreImage(target_url);
 
-        
+
     }
 }
