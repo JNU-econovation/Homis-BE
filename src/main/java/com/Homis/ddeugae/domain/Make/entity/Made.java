@@ -15,6 +15,7 @@ public class Made {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "made_data_id")
     private Long madeDataId;
 
     @Column(nullable = false)
