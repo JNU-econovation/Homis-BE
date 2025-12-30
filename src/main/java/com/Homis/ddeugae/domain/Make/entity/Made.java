@@ -24,7 +24,7 @@ public class Made {
     @Column(nullable = false)
     private Integer madeSize;
 
-    @Column
+    @Column(nullable = false)
     private String madeImgUrl;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -34,10 +34,10 @@ public class Made {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "maker_data_id", referencedColumnName = "user_data_id")
+    @JoinColumn(name = "maker_data_id", referencedColumnName = "user_data_id", nullable = false)
     private User user;   // User.java의 userDataId와 FK
 
     // 조회용 필드! 작성자 ID
-    @Column(name = "maker_data_id", insertable = false, updatable = false)
+    @Column(name = "maker_data_id", insertable = false, updatable = false, nullable = false)
     private Long userDataId;
 }
