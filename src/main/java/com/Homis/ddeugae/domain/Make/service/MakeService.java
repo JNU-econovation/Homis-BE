@@ -16,6 +16,7 @@ public class MakeService {
             String made_name = requested_at.toString().formatted("yyyy-MM-dd"); 
         }
         
-        // 이 아래는 논의 끝난 후에 채워야 함
+        // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
+        
     }
 }
