@@ -33,7 +33,11 @@ public class Made {
     @Column(nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maker_data_id", referencedColumnName = "user_data_id")
     private User user;   // User.java의 userDataId와 FK
+
+    // 조회용 필드! 작성자 ID
+    @Column(name = "maker_data_id", insertable = false, updatable = false)
+    private Long userDataId;
 }
