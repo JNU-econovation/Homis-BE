@@ -20,6 +20,12 @@ public class MadeDesignImageService {
     @Value("${websnap.auth.token}")
     private String websnapToken;
 
+    /**
+     * WebSnaAPI 결과인 이미지 url을 통해 파일 byte 가져오기 (blob storage 얿로드 목적)
+     *
+     * @param imageUrl : WebSnaAPI 결과인 이미지 url
+     * @return : 이미지 파일 byte
+     */
     private byte[] downloadImageBytes(String imageUrl) {
         try (InputStream in = new URL(imageUrl).openStream()) {
             return in.readAllBytes();
