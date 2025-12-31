@@ -1,8 +1,11 @@
 package com.Homis.ddeugae.common.util;
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobStorageException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,22 +33,28 @@ public class BlobStorageUploader {
      * @return : 업로드된 Blob URL -> DB에 저장될 예정
      */
     public String fileUpload(byte[] data, String contentType, String extension){
-        String filename = UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
+        try{
+            String filename = UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
 
-        BlobClient blobClient = containerClient.getBlobClient(filename); // 생성한 파일명으로 Blob 객체 가져옴
+            BlobClient blobClient = containerClient.getBlobClient(filename); // 생성한 파일명으로 Blob 객체 가져옴
 
-        // Blob에 데이터 업로드
-        blobClient.upload(
-                new ByteArrayInputStream(data),
-                data.length,
-                true // 같은 파일명일 시 덮어쓰기 (잘 없긴 하겠지만...)
-        );
+            // Blob에 데이터 업로드
+            blobClient.upload(
+                    new ByteArrayInputStream(data),
+                    data.length,
+                    true // 같은 파일명일 시 덮어쓰기 (잘 없긴 하겠지만...)
+            );
 
-        // 브라우저에서 파일 직접 열 때 올바르게 처리되도록 헤더 설정
-        blobClient.setHttpHeaders(
-                new BlobHttpHeaders().setContentType(contentType)
-        );
+            // 브라우저에서 파일 직접 열 때 올바르게 처리되도록 헤더 설정
+            blobClient.setHttpHeaders(
+                    new BlobHttpHeaders().setContentType(contentType)
+            );
 
-        return blobClient.getBlobUrl(); // 업로드된 Blob URL -> DB 저장, 이걸로 읽기 및 다운로드 가능!
+            return blobClient.getBlobUrl(); // 업로드된 Blob URL -> DB 저장, 이걸로 읽기 및 다운로드 가능!
+        } catch (BlobStorageException be){
+            throw new CustomException(ErrorCode.BLOB_FAILED_UPLOAD_IMG, be);
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.UNKNOWN_FAILED_UPLOAD_IMG, e);
+        }
     }
 }

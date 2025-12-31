@@ -3,12 +3,14 @@ package com.Homis.ddeugae.common.handler;
 import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
     // Custom Exception들 처리
@@ -18,6 +20,11 @@ public class GlobalExceptionHandler {
         final HttpStatus status = errorCode.getStatus();
         final String code = errorCode.getCode();
         final String message = errorCode.getMessage();
+
+        // 내부 에러 원인 찍기 위해 로그 찍기...
+        if (ce.getCause() != null) {
+            log.error("[{}] {}", code, ce.getCause().getMessage(), ce);
+        }
 
         return ResponseEntity.status(status)
                 .body(ApiResponse.error(code, message));

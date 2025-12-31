@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Make.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,11 +21,8 @@ public class MadeUploadReq {
     @Max(value = 100, message = "도안 규격은 최대 100x100입니다.")
     private Integer size;
 
-    @NotNull(message = "도안 디자인 HTML이 없습니다.")
-    private String designHtml;
-
-    @NotNull(message = "도안 디자인 CSS가 없습니다.")
-    private String designCss;
+    @NotBlank(message = "도안 디자인 preview url이 없습니다.")
+    private String designPreviewUrl;
 
     private String script;
 }
