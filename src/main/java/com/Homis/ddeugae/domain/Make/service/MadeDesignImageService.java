@@ -29,8 +29,8 @@ public class MadeDesignImageService {
     private byte[] downloadImageBytes(String imageUrl) {
         try (InputStream in = new URL(imageUrl).openStream()) {
             return in.readAllBytes();
-        } catch (IOException e) {
-            throw new CustomException(ErrorCode.FAILED_DOWNLOAD_IMG);
+        } catch (IOException ie) {
+            throw new CustomException(ErrorCode.FAILED_DOWNLOAD_IMG, ie);
         }
     }
 
