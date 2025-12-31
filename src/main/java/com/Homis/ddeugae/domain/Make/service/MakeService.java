@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class MakeService {
 
         // 도안명 지정 안했으면 생성일로 채움 : "yyyy-MM-dd"
         String made_name = !uploadReq.getMadeName().isBlank() ? uploadReq.getMadeName()
-                                                            : requested_at.toString().formatted("yyyy-MM-dd");
+                                                            : requested_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
         String target_url = uploadReq.getDesignPreviewUrl();
