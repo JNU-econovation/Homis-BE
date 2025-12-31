@@ -34,6 +34,12 @@ public class MadeDesignImageService {
         }
     }
 
+    /**
+     * 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
+     *
+     * @param previewUrl : WebSnaAPI 요청에 담을 (렌더링 후 이미지 url 받을) preview 페이지 url
+     * @return : blob storage에 업로드된 이미지 파일의 url
+     */
     public String createAndStoreImage(String previewUrl) { // blob storage url 반환
 
         // WebSnapAPI로 URL -> image_url 반환
