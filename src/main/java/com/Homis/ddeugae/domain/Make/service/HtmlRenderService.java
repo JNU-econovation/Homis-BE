@@ -1,5 +1,7 @@
 package com.Homis.ddeugae.domain.Make.service;
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -12,7 +14,13 @@ public class HtmlRenderService {
         this.restClient = builder.build();
     }
 
-    private static record WebSnapResponse(String status, String image_url) {}
+    private static record WebSnapResponse(String status, String image_url) {
+        public WebSnapResponse{
+            if (!status.equals("ok")){
+                throw new CustomException(ErrorCode.FAILED_WEBSNAPSHOT_API);
+            }
+        }
+    }
 
     /**
      * WebSnapAPI 호출 후 image_url을 반환
