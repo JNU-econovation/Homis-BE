@@ -24,7 +24,7 @@ public class MakeService {
     public Long uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()){
-            throw new CustomException(ErrorCode.NOT_USER);
+            throw new CustomException(ErrorCode.INVALID_ACCESS);
         }
         final User userDoc = userRepository.findById(userDataId).get();
 
