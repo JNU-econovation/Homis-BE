@@ -6,6 +6,7 @@ import com.Homis.ddeugae.common.util.BlobStorageUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,11 +27,15 @@ public class MadeDesignImageService {
      * @param imageUrl : WebSnaAPI 결과인 이미지 url
      * @return : 이미지 파일 byte
      */
-    private byte[] downloadImageBytes(String imageUrl) {
-        try (InputStream in = new URL(imageUrl).openStream()) {
-            return in.readAllBytes();
-        } catch (IOException ie) {
-            throw new CustomException(ErrorCode.FAILED_DOWNLOAD_IMG, ie);
+    private byte[] loadImageBytes(String imageUrl) {
+        try  {
+            RestTemplate restTemplate = new RestTemplate();
+            // URL에서 직접 byte[]로 가져오기 [1]
+            byte[] imageBytes = restTemplate.getForObject(imageUrl, byte[].class);
+            
+            return imageBytes;
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.FAILED_DOWNLOAD_IMG, e);
         }
     }
 
@@ -45,8 +50,8 @@ public class MadeDesignImageService {
         // WebSnapAPI로 URL -> image_url 반환
         String websnapImageUrl = webSnapAPIService.captureDesign(previewUrl, websnapToken);
 
-        // 외부 image_url의 이미지 byte[] 다운로드
-        byte[] imageBytes = downloadImageBytes(websnapImageUrl);
+        // 외부 image_url의 이미지 byte[] 가져오기
+        byte[] imageBytes = loadImageBytes(websnapImageUrl);
 
         // Azure Blob Storage에 이미지 업로드
         return blobUploader.fileUpload(imageBytes, "image/png", "png");
