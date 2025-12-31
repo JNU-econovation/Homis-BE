@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
-public class HtmlRenderService {
+public class WebSnapAPIService {
 
     private final RestClient restClient;
 
-    public HtmlRenderService(RestClient.Builder builder){
+    public WebSnapAPIService(RestClient.Builder builder){
         this.restClient = builder.build();
     }
 

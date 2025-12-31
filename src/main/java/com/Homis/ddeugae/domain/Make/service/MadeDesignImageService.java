@@ -14,7 +14,7 @@ import java.net.URL;
 @Service
 @RequiredArgsConstructor
 public class MadeDesignImageService {
-    private final HtmlRenderService htmlRenderService;
+    private final WebSnapAPIService webSnapAPIService;
     private final BlobStorageUploader blobUploader;
 
     @Value("${websnap.auth.token}")
@@ -43,7 +43,7 @@ public class MadeDesignImageService {
     public String createAndStoreImage(String previewUrl) { // blob storage url 반환
 
         // WebSnapAPI로 URL -> image_url 반환
-        String websnapImageUrl = htmlRenderService.captureDesign(previewUrl, websnapToken);
+        String websnapImageUrl = webSnapAPIService.captureDesign(previewUrl, websnapToken);
 
         // 외부 image_url의 이미지 byte[] 다운로드
         byte[] imageBytes = downloadImageBytes(websnapImageUrl);
