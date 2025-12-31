@@ -4,8 +4,11 @@ import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.time.Duration;
 
 @Slf4j
 @Service
@@ -14,7 +17,13 @@ public class WebSnapAPIService {
     private final RestClient restClient;
 
     public WebSnapAPIService(RestClient.Builder builder){
-        this.restClient = builder.build();
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(Duration.ofSeconds(3));
+        requestFactory.setReadTimeout(Duration.ofSeconds(10));
+
+        this.restClient = builder
+                .requestFactory(requestFactory)
+                .build();
     }
 
     private record WebSnapResponse(String status, String image_url) {}
