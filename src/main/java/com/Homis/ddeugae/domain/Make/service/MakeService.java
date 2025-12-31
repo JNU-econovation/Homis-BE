@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
@@ -30,21 +31,25 @@ public class MakeService {
         LocalDateTime requested_at = LocalDateTime.now();
 
         // 도안명 지정 안했으면 생성일로 채움 : "yyyy-MM-dd"
-        String made_name = uploadReq.getMadeName() != null ? uploadReq.getMadeName()
+        String made_name = !uploadReq.getMadeName().isBlank() ? uploadReq.getMadeName()
                                                             : requested_at.toString().formatted("yyyy-MM-dd");
 
         // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
         String target_url = uploadReq.getDesignPreviewUrl();
         String design_image_url = madeDesignImageService.createAndStoreImage(target_url);
 
+        // MadeDto로 문제되는 값 없는지 확인
+        Integer size = uploadReq.getSize();
+        MadeDto check = new MadeDto(made_name, size, design_image_url);
+
         // 도안 제작 내용 저장
         Made.MadeBuilder builder = Made.builder()
                 .madeName(made_name)
-                .madeSize(uploadReq.getSize())
+                .madeSize(size)
                 .user(userDoc)
                 .madeImgUrl(design_image_url)
                 .createdAt(requested_at);
-        if (uploadReq.getScript() != null) { // 상세 스크립트는 null일 수 있음
+        if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트는 없을 수 있음
             builder.madeDetail(uploadReq.getScript());
         }
         Made made = builder.build();
