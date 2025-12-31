@@ -19,7 +19,7 @@ public class WebSnapAPIService {
     public WebSnapAPIService(RestClient.Builder builder){
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(Duration.ofSeconds(3));
-        requestFactory.setReadTimeout(Duration.ofSeconds(10));
+        requestFactory.setReadTimeout(Duration.ofSeconds(30));
 
         this.restClient = builder
                 .requestFactory(requestFactory)
