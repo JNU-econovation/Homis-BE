@@ -36,7 +36,7 @@ public class AuthController {
         LoginResp loginData = new LoginResp(jwtToken.getAccessToken(), jwtToken.getUserNickname());
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", jwtToken.getRefreshToken())
-                .httpOnly(true).secure(false).sameSite("None") // TODO - 배포 시 true 변경
+                .httpOnly(true).secure(true).sameSite("None")
                 .path("/api/auth/refresh")
                 .maxAge(60 * 60 * 24 * 90)  // 리프레시 토큰은 3개월 유효
                 .build();
@@ -52,7 +52,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<?>> logOut(){
         ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
-                .httpOnly(true).secure(false).sameSite("None") // TODO - 배포 시 true 변경
+                .httpOnly(true).secure(true).sameSite("None")
                 .path("/api/auth/refresh")
                 .maxAge(0)  // 리프레시 토큰은 3개월 유효
                 .build();
