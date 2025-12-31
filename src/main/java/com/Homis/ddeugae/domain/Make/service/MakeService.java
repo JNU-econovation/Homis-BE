@@ -3,7 +3,6 @@ package com.Homis.ddeugae.domain.Make.service;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
-import com.Homis.ddeugae.domain.Make.dto.MadeUploadResp;
 import com.Homis.ddeugae.domain.Make.entity.Made;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
@@ -20,7 +19,7 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
 
-    public MadeUploadResp uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
+    public Long uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()){
             throw new CustomException(ErrorCode.NOT_USER);
@@ -51,8 +50,6 @@ public class MakeService {
         Made made = builder.build();
         Made savedMade = madeRepository.save(made);
 
-        final MadeUploadResp data = new MadeUploadResp(savedMade.getMadeDataId());
-
-        return data; // 페이지 이동을 위해 도안 제작 고유 ID 반환
+        return savedMade.getMadeDataId(); // 페이지 이동을 위해 도안 제작 고유 ID 반환
     }
 }

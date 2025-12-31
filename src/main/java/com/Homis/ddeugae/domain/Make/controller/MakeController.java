@@ -2,10 +2,12 @@ package com.Homis.ddeugae.domain.Make.controller;
 
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Make.dto.MadeUploadResp;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +29,9 @@ public class MakeController {
 
         Long userDataId = (Long) request.getAttribute("userDataId");
 
+        MadeUploadResp data = new MadeUploadResp(makeService.uploadMadeDesign(uploadReq, userDataId));
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success("201", "제작 도안 저장(업로드) 성공"));
+                .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공", data));
     }
 }
