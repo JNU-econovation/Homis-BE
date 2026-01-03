@@ -29,9 +29,9 @@ public class MakeController {
 
         Long userDataId = (Long) request.getAttribute("userDataId");
 
-        MadeUploadResp data = new MadeUploadResp(makeService.uploadMadeDesign(uploadReq, userDataId));
+        makeService.uploadMadeDesign(uploadReq, userDataId);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공", data));
+                .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공"));
     }
 }

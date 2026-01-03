@@ -21,7 +21,7 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
 
-    public Long uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
+    public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()){
             throw new CustomException(ErrorCode.INVALID_ACCESS);
@@ -54,8 +54,6 @@ public class MakeService {
             builder.madeDetail(uploadReq.getScript());
         }
         Made made = builder.build();
-        Made savedMade = madeRepository.save(made);
-
-        return savedMade.getMadeDataId(); // 페이지 이동을 위해 도안 제작 고유 ID 반환
+        madeRepository.save(made);
     }
 }
