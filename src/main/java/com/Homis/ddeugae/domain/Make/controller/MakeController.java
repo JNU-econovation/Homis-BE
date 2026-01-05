@@ -2,16 +2,16 @@ package com.Homis.ddeugae.domain.Make.controller;
 
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/design-make")
@@ -31,5 +31,17 @@ public class MakeController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공"));
+    }
+
+    @GetMapping("/preview")
+    public ResponseEntity<ApiResponse<?>> madePreview(HttpServletRequest request){
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        List<MadePreviewMapping> MadePreviewData = makeService.getMadePreview(userDataId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200",
+                                        "도안 제작 미리보기 내용 불러오기 성공 (메인 페이지 구성용)",
+                                                MadePreviewData));
     }
 }
