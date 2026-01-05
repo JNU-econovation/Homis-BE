@@ -5,6 +5,7 @@ import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
+import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +23,9 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
 
-    public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId){
+    public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
         // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()){
+        if (userRepository.findById(userDataId).isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_ACCESS);
         }
         final User userDoc = userRepository.findById(userDataId).get();
@@ -33,7 +35,7 @@ public class MakeService {
 
         // 도안명 지정 안했으면 생성일로 채움 : "yyyy-MM-dd"
         String made_name = !uploadReq.getMadeName().isBlank() ? uploadReq.getMadeName()
-                                                            : requested_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                : (requested_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " 작성도안");
 
         // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
         String target_url = uploadReq.getDesignPreviewUrl();
@@ -55,5 +57,14 @@ public class MakeService {
         }
         Made made = builder.build();
         madeRepository.save(made);
+    }
+
+    public List<MadePreviewMapping> getMadePreview(Long userDataId) {
+        // 존재하는 사용자인지 확인
+        if (userRepository.findById(userDataId).isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_ACCESS);
+        }
+
+        return madeRepository.findAllByMakerDataId(userDataId);
     }
 }
