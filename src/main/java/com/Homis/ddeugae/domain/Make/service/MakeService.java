@@ -34,7 +34,7 @@ public class MakeService {
         LocalDateTime requested_at = LocalDateTime.now();
 
         // 도안명 지정 안했으면 생성일로 채움 : "yyyy-MM-dd"
-        String made_name = !uploadReq.getMadeName().isBlank() ? uploadReq.getMadeName()
+        String made_name = !(uploadReq.getMadeName() == null || uploadReq.getMadeName().isBlank()) ? uploadReq.getMadeName()
                 : (requested_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " 작성도안");
 
         // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
