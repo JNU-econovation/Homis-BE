@@ -1,6 +1,8 @@
 package com.Homis.ddeugae.domain.Make.util;
 
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -57,7 +59,7 @@ public class ContentStreamForText {
 
             return contentStream;
         } catch (IOException ie) {
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.PDFBOX_FAILED_SETTING_STREAM, ie);
         }
     }
 
@@ -92,7 +94,7 @@ public class ContentStreamForText {
             currY = startY;
 
         } catch (IOException ie){
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.PDFBOX_FAILED_NEW_PAGE, ie);
         }
     }
 
@@ -104,7 +106,7 @@ public class ContentStreamForText {
             contentStream.newLineAtOffset(0, -leading);
             currY -= leading;
         } catch (IOException ie){
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.PDFBOX_FAILED_NEW_LINE, ie);
         }
     }
 
@@ -118,7 +120,7 @@ public class ContentStreamForText {
 
             nextLine();
         } catch (IOException ie){
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.PDFBOX_FAILED_WRITE_LINE, ie);
         }
     }
 
@@ -141,7 +143,7 @@ public class ContentStreamForText {
                 curr.append(c); // 너비를 넘지 않았다면 curr에 c(글자) 추가
 
             } catch (IOException ie) {
-                throw new RuntimeException(ie);
+                throw new CustomException(ErrorCode.PDFBOX_FAILED_WRAPPING, ie);
             }
         }
 
@@ -158,7 +160,7 @@ public class ContentStreamForText {
             contentStream.endText();
             contentStream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CustomException(ErrorCode.PDFBOX_FAILED_CLOSE, e);
         }
     }
 }
