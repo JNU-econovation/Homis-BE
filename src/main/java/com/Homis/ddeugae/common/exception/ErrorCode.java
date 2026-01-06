@@ -30,7 +30,11 @@ public enum ErrorCode {
     FAILED_WEBSNAPSHOT_API(HttpStatus.INTERNAL_SERVER_ERROR, "004_FAILED_WEBSNAPSHOT_API", "렌더링 및 스크린샷 API 오류 발생"),
     BLOB_FAILED_UPLOAD_FILE(HttpStatus.INTERNAL_SERVER_ERROR, "005_BLOB_FAILED_UPLOAD_FILE", "Blob Storage에 파일 업로드 실패"),
     UNKNOWN_FAILED_UPLOAD_FILE(HttpStatus.INTERNAL_SERVER_ERROR, "006_UNKNOWN_FAILED_UPLOAD_FILE", "알 수 없는 파일 업로드 오류"),
-    FAILED_LOAD_PDF(HttpStatus.INTERNAL_SERVER_ERROR, "007_FAILED_LOAD_PDF", "PDF byte 배열 로드 실패");
+    FAILED_LOAD_PDF(HttpStatus.INTERNAL_SERVER_ERROR, "007_FAILED_LOAD_PDF", "PDF byte 배열 로드 실패"),
+    FAILED_ADD_IMG_TO_PDF(HttpStatus.INTERNAL_SERVER_ERROR, "008_FAILED_ADD_IMG_TO_PDF", "PDF에 도안 이미지 추가 중 오류 발생"),
+    FAILED_LOAD_FONT(HttpStatus.INTERNAL_SERVER_ERROR, "009_FAILED_LOAD_FONT", "PDF용 폰트 파일 로드 실패"),
+    FAILED_SAVE_PDF(HttpStatus.INTERNAL_SERVER_ERROR, "0010_FAILED_SAVE_PDF", "PDF 파일 저장 실패");
+
 
     private final HttpStatus status;
     private final String code;

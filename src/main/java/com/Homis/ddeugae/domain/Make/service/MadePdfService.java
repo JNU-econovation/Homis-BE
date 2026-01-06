@@ -55,7 +55,7 @@ public class MadePdfService {
             contentStream.close();
 
         } catch (IOException ie){
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.FAILED_ADD_IMG_TO_PDF, ie);
         }
 
     }
@@ -72,7 +72,7 @@ public class MadePdfService {
             contentStreamForText.close();
 
         } catch (IOException ie) {
-            throw new RuntimeException(ie); // font 파일 로드 예외처리
+            throw new CustomException(ErrorCode.FAILED_LOAD_FONT, ie);
         }
     }
 
@@ -85,7 +85,7 @@ public class MadePdfService {
 
             return bytes;
         } catch (IOException ie) {
-            throw new RuntimeException(ie);
+            throw new CustomException(ErrorCode.FAILED_SAVE_PDF, ie);
         } catch (Exception e){
             throw new CustomException(ErrorCode.FAILED_LOAD_PDF, e);
         }
