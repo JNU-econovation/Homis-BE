@@ -100,6 +100,7 @@ public class ContentStreamForText {
     // 따로 뺄지 말지 고민했는데... writeText에서 반복되기도 하고 try catch 안 쓰려고 해당 메소드 작성함
     private void nextLine() {
         try {
+            // 새로 쓸 내용의 위치를 줄 간격만큼 아래로 내리고 currY도 맞춰 조정
             contentStream.newLineAtOffset(0, -leading);
             currY -= leading;
         } catch (IOException ie){
