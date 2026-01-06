@@ -44,12 +44,12 @@ public class MadePdfService {
 
             ContentStreamForText contentStreamForText = new ContentStreamForText(doc, page, font);
 
-            // TODO: PDF 파일에 madeDetail 내용 작성
+            contentStreamForText.writeText(madeDetail);
 
             contentStreamForText.close();
 
         } catch (IOException ie) {
-            throw new RuntimeException(ie);
+            throw new RuntimeException(ie); // font 파일 로드 예외처리
         }
     }
 
