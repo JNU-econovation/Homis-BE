@@ -127,23 +127,25 @@ public class ContentStreamForText {
         List<String> res = new ArrayList<>();
         StringBuilder curr = new StringBuilder();
 
+        // 문장을 한 글자씩 쪼개서 사용 가능 너비가 넘지 않도록 처리
         for (char c : line.toCharArray()) {
             try {
                 float width = font.getStringWidth(curr +
                         String.valueOf(c)) / 1000 * fontSize;
 
-                if (width > usableWidth) {
+                if (width > usableWidth) { // 너비 넘음 -> 처리 문장 리스트에 추가, curr 비우기
                     res.add(curr.toString());
                     curr.setLength(0);
                 }
 
-                curr.append(c);
+                curr.append(c); // 너비를 넘지 않았다면 curr에 c(글자) 추가
 
             } catch (IOException ie) {
                 throw new RuntimeException(ie);
             }
         }
 
+        // 마지막 남은 내용(줄)까지 추가
         if (!curr.isEmpty()) {
             res.add(curr.toString());
         }
