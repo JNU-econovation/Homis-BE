@@ -14,6 +14,7 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -53,6 +54,19 @@ public class MadePdfService {
         }
     }
 
+    private byte[] loadPdfBytes(PDDocument doc){
+        try{
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            doc.save(baos);
+            doc.close();
+            byte[] bytes = baos.toByteArray();
+
+            return bytes;
+        } catch (IOException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
+
     public String createAndStorePdf(String madeImgUrl, String madeDetail){
         PDDocument doc = new PDDocument();
 
@@ -64,8 +78,8 @@ public class MadePdfService {
         doc.addPage(detailPage);
         addMadeDetailToPdf(doc, detailPage, madeDetail);
 
-        //byte[] pdfBytes = loadPdfBytes(doc);
+        byte[] pdfBytes = loadPdfBytes(doc);
 
-        //return blobUploader.fileUpload(pdfBytes, "application/pdf", "pdf");
+        return blobUploader.fileUpload(pdfBytes, "application/pdf", "pdf");
     }
 }
