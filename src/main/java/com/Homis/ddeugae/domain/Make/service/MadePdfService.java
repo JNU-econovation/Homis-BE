@@ -15,10 +15,12 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,10 @@ public class MadePdfService {
 
     private void addMadeImgToPdf(PDDocument doc, PDPage page, String madeImgUrl){
         try{
-            PDImageXObject madeImg = PDImageXObject.createFromFile(madeImgUrl, doc);
+            RestTemplate restTemplate = new RestTemplate();
+            byte[] imageBytes = restTemplate.getForObject(madeImgUrl, byte[].class);
+
+            PDImageXObject madeImg = PDImageXObject.createFromByteArray(doc, imageBytes, UUID.randomUUID().toString());
             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
 
             float padding = 50f;
@@ -63,7 +68,7 @@ public class MadePdfService {
     private void addMadeDetailToPdf(PDDocument doc, PDPage page, String madeDetail){
         try {
             PDFont font = PDType0Font.load(doc,
-                    new File("**/fonts/Pretendard-Medium.ttf"));
+                    new File("src/main/resources/fonts/Pretendard-Medium.ttf"));
 
             ContentStreamForText contentStreamForText = new ContentStreamForText(doc, page, font);
 
