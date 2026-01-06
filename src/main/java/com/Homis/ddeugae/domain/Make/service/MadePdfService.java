@@ -1,6 +1,8 @@
 package com.Homis.ddeugae.domain.Make.service;
 
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.util.BlobStorageUploader;
 import com.Homis.ddeugae.domain.Make.util.ContentStreamForText;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +86,8 @@ public class MadePdfService {
             return bytes;
         } catch (IOException ie) {
             throw new RuntimeException(ie);
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.FAILED_LOAD_PDF, e);
         }
     }
 
