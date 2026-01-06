@@ -51,6 +51,20 @@ public class ContentStreamForText {
         }
     }
 
+    // 한줄 출력
+    private void writeLine(String text){
+        try{
+            if (currY - leading < padding) { // todo: 새 페이지 생성
+            }
+
+            contentStream.showText(text);
+            contentStream.newLineAtOffset(0, -leading);
+            currY -= leading;
+        } catch (IOException ie){
+            throw new RuntimeException(ie);
+        }
+    }
+
     public void close(){
         try {
             contentStream.endText();
