@@ -87,6 +87,19 @@ public class MadePdfService {
         }
     }
 
+    // 상세 설명 없을 때 사용할 메소드
+    public String createAndStorePdfExcludeDetail(String madeImgUrl){
+        PDDocument doc = new PDDocument();
+
+        PDPage imgPage = new PDPage(PDRectangle.A4);
+        doc.addPage(imgPage);
+        addMadeImgToPdf(doc, imgPage, madeImgUrl);
+
+        byte[] pdfBytes = loadPdfBytes(doc);
+
+        return blobUploader.fileUpload(pdfBytes, "application/pdf", "pdf");
+    }
+
     public String createAndStorePdf(String madeImgUrl, String madeDetail){
         PDDocument doc = new PDDocument();
 
