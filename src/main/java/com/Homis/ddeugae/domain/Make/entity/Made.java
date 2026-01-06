@@ -27,6 +27,9 @@ public class Made {
     @Column(nullable = false)
     private String madeImgUrl;
 
+    @Column(nullable = false)
+    private String madePdfUrl;
+
     @Column(columnDefinition = "TEXT")
     private String madeDetail;
 

@@ -35,7 +35,7 @@ public class MadeDesignImageService {
             
             return imageBytes;
         } catch (Exception e){
-            throw new CustomException(ErrorCode.FAILED_DOWNLOAD_IMG, e);
+            throw new CustomException(ErrorCode.FAILED_LOAD_IMG, e);
         }
     }
 

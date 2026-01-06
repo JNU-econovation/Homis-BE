@@ -38,6 +38,8 @@ dependencies {
 
     implementation platform('com.azure.spring:spring-cloud-azure-dependencies:6.0.0')
     implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob'
+
+    implementation 'org.apache.pdfbox:pdfbox:2.0.35'
 }
 
 tasks.named('test') {

@@ -52,9 +52,9 @@ public class BlobStorageUploader {
 
             return blobClient.getBlobUrl(); // 업로드된 Blob URL -> DB 저장, 이걸로 읽기 및 다운로드 가능!
         } catch (BlobStorageException be){
-            throw new CustomException(ErrorCode.BLOB_FAILED_UPLOAD_IMG, be);
+            throw new CustomException(ErrorCode.BLOB_FAILED_UPLOAD_FILE, be);
         } catch (Exception e){
-            throw new CustomException(ErrorCode.UNKNOWN_FAILED_UPLOAD_IMG, e);
+            throw new CustomException(ErrorCode.UNKNOWN_FAILED_UPLOAD_FILE, e);
         }
     }
 }
