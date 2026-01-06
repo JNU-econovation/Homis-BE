@@ -61,6 +61,20 @@ public class ContentStreamForText {
         }
     }
 
+    public void writeText(String rawText){
+        String[] lines = rawText.split("\\r?\\n"); // OS 상관 없이 엔터 기준 문장들 분리
+
+        for (String line : lines){
+            List<String> wrappedLines = wrapLine(line); // 폭 넘어가는 애들 안 넘어가게 처리
+
+            for (String wrapped : wrappedLines) { // 처리된 애들로 한 줄씩 작성
+                writeLine(wrapped);
+            }
+
+            nextLine(); // 사용자가 엔터친 곳 줄바꿈 +1
+        }
+    }
+
     // 페이지 추가
     private void newPage(){
         try{
@@ -79,6 +93,17 @@ public class ContentStreamForText {
         }
     }
 
+    // 줄바꿈
+    // 따로 뺄지 말지 고민했는데... writeText에서 반복되기도 하고 try catch 안 쓰려고 해당 메소드 작성함
+    private void nextLine() {
+        try {
+            contentStream.newLineAtOffset(0, -leading);
+            currY -= leading;
+        } catch (IOException ie){
+            throw new RuntimeException(ie);
+        }
+    }
+
     // 한줄 출력
     private void writeLine(String text){
         try{
@@ -86,8 +111,8 @@ public class ContentStreamForText {
             if (currY - leading < padding) { newPage(); }
 
             contentStream.showText(text);
-            contentStream.newLineAtOffset(0, -leading);
-            currY -= leading;
+
+            nextLine();
         } catch (IOException ie){
             throw new RuntimeException(ie);
         }
