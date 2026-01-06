@@ -10,6 +10,8 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContentStreamForText {
     private final PDDocument doc;
@@ -89,6 +91,35 @@ public class ContentStreamForText {
         } catch (IOException ie){
             throw new RuntimeException(ie);
         }
+    }
+
+    // 엔터되지 않은 한문장이 지정 폭을 넘으면 자동 줄바꿈이 되도록 처리
+    private List<String> wrapLine(String line){
+        List<String> res = new ArrayList<>();
+        StringBuilder curr = new StringBuilder();
+
+        for (char c : line.toCharArray()) {
+            try {
+                float width = font.getStringWidth(curr +
+                        String.valueOf(c)) / 1000 * fontSize;
+
+                if (width > usableWidth) {
+                    res.add(curr.toString());
+                    curr.setLength(0);
+                }
+
+                curr.append(c);
+
+            } catch (IOException ie) {
+                throw new RuntimeException(ie);
+            }
+        }
+
+        if (!curr.isEmpty()) {
+            res.add(curr.toString());
+        }
+
+        return res;
     }
 
     public void close(){
