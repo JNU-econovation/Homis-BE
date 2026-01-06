@@ -78,12 +78,15 @@ public class ContentStreamForText {
     // 페이지 추가
     private void newPage(){
         try{
+            // 기존 페이지의 contentStream 마무리
             contentStream.endText();
             contentStream.close();
 
+            // 새 페이지 생성 후 문서에 추가
             currPage = new PDPage(PDRectangle.A4);
             doc.addPage(currPage);
 
+            // 새 페이지 기준 contentStream 재설정
             contentStream = setting(doc, currPage);
 
             currY = startY;
