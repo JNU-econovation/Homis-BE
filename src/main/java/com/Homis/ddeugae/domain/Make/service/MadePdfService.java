@@ -27,7 +27,7 @@ public class MadePdfService {
         try{
             PDImageXObject madeImg = PDImageXObject.createFromFile(madeImgUrl, doc);
             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-            contentStream.drawImage(madeImg, 50, 750, 595, 842); // TODO: width, height 조정 필요
+            contentStream.drawImage(madeImg, 50, 792, 495, 792); // TODO: width, height 조정 필요
 
             contentStream.close();
 
@@ -39,13 +39,10 @@ public class MadePdfService {
 
     private void addMadeDetailToPdf(PDDocument doc, PDPage page, String madeDetail){
         try {
-            PDPageContentStream pageContentStream = new PDPageContentStream(doc, page,
-                    PDPageContentStream.AppendMode.APPEND, true, true);
-
             PDFont font = PDType0Font.load(doc,
-                    new File("C:\\Users\\user\\Homis-BE\\ddeugae\\src\\main\\resources\\fonts\\Pretendard-Medium.ttf"));
+                    new File("**/fonts/Pretendard-Medium.ttf"));
 
-            ContentStreamForText contentStreamForText = new ContentStreamForText(pageContentStream, font);
+            ContentStreamForText contentStreamForText = new ContentStreamForText(doc, page, font);
 
             // TODO: PDF 파일에 madeDetail 내용 작성
 

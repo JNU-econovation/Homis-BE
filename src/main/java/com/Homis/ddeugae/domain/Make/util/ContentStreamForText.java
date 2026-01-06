@@ -1,6 +1,8 @@
 package com.Homis.ddeugae.domain.Make.util;
 
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -8,29 +10,41 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import java.io.IOException;
 
 public class ContentStreamForText {
-    private PDPageContentStream pageContentStream;
+    private final PDDocument doc;
+    private PDPage currPage;
+    private PDPageContentStream contentStream;
+
     private PDFont font;
     private float fontSize;
-    private float margin;
-    private float startY;
-    private float pageWidth;
-    private float usableWidth;
     private float leading;
 
-    public ContentStreamForText(PDPageContentStream pageContentStream, PDFont font) {
-        this.pageContentStream = pageContentStream;
+    private float padding = 50f;
+    private float startX = padding;
+    private float startY = 842f - padding;
+    private float usableWidth;
+
+    private float currY;
+
+
+    public ContentStreamForText(PDDocument doc, PDPage startPage, PDFont font) {
+        this.doc = doc;
+        this.currPage = startPage;
         this.font = font;
 
-        this.margin = 50;
-        this.startY = 750;
-        this.pageWidth = PDRectangle.A4.getWidth();
-        this.usableWidth = pageWidth - 2 * margin;
         this.fontSize = 15f;            // 폰트 크기 15px
         this.leading = 1.4f * fontSize; // 줄간격 140%
+        this.usableWidth = PDRectangle.A4.getWidth() - 2 * padding;
 
         try {
-            this.pageContentStream.setFont(this.font, this.fontSize);
-            this.pageContentStream.setNonStrokingColor(0, 0, 0); // 검정색
+            this.contentStream = new PDPageContentStream(doc, currPage, PDPageContentStream.AppendMode.APPEND, true, true);
+
+            contentStream.setFont(this.font, fontSize);
+            contentStream.setNonStrokingColor(0, 0, 0); // 검정색
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(startX, startY);
+
+            this.currY = startY;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -39,7 +53,8 @@ public class ContentStreamForText {
 
     public void close(){
         try {
-            this.pageContentStream.close();
+            contentStream.endText();
+            contentStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
