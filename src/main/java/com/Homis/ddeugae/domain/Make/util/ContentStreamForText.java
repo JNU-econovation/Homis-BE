@@ -6,6 +6,8 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
+import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 
 import java.io.IOException;
 
@@ -46,7 +48,7 @@ public class ContentStreamForText {
             contentStream = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
 
             contentStream.setFont(this.font, fontSize);
-            contentStream.setNonStrokingColor(0, 0, 0); // 검정색
+            contentStream.setNonStrokingColor(new PDColor(new float[]{0, 0, 0}, PDDeviceRGB.INSTANCE)); // 검정색
 
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
