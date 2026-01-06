@@ -24,5 +24,6 @@ public class MadeUploadReq {
     @NotBlank(message = "도안 디자인 preview url이 없습니다.")
     private String designPreviewUrl;
 
+    @Length(max=1000, message = "도안 제작 상세 설명은 최대 1000자까지만 가능합니다.")
     private String script;
 }

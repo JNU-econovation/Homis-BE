@@ -30,7 +30,7 @@ public class Made {
     @Column(nullable = false)
     private String madePdfUrl;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String madeDetail;
 
     @Column(nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
