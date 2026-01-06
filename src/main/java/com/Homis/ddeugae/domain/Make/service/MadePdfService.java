@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Service
@@ -67,8 +68,8 @@ public class MadePdfService {
 
     private void addMadeDetailToPdf(PDDocument doc, PDPage page, String madeDetail){
         try {
-            PDFont font = PDType0Font.load(doc,
-                    new File("src/main/resources/fonts/Pretendard-Medium.ttf"));
+            InputStream fontStream = getClass().getResourceAsStream("/fonts/Pretendard-Medium.ttf");
+            PDFont font = PDType0Font.load(doc, fontStream);
 
             ContentStreamForText contentStreamForText = new ContentStreamForText(doc, page, font);
 
