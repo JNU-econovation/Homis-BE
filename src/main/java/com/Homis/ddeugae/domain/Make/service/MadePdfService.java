@@ -1,4 +1,12 @@
-package com.Homis.ddeugae.domain.Make.repository;
+package com.Homis.ddeugae.domain.Make.service;
 
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
 public class MadePdfService {
+    
 }
