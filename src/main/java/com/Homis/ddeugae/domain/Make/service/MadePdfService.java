@@ -27,7 +27,28 @@ public class MadePdfService {
         try{
             PDImageXObject madeImg = PDImageXObject.createFromFile(madeImgUrl, doc);
             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-            contentStream.drawImage(madeImg, 50, 792, 495, 792); // TODO: width, height 조정 필요
+
+            float padding = 50f;
+            float pageWidth = page.getMediaBox().getWidth();
+            float pageHeight = page.getMediaBox().getHeight();
+            float usableWidth = pageWidth - 2 * padding;
+            float usableHeight = pageHeight - 2 * padding;
+
+            float imgWidth = madeImg.getWidth();
+            float imgHeight = madeImg.getHeight();
+
+            // 이미지 잘리지 않게 scale 값 정하기
+            float widthScale = usableWidth / imgWidth;
+            float heightScale = usableHeight / imgHeight;
+            float scale = Math.min(widthScale, heightScale); // 이미지 비율 유지용 scale값
+
+            float drawWidth = imgWidth * scale;
+            float drawHeight = imgHeight * scale;
+
+            float x = padding + ((usableWidth - drawWidth)/2);
+            float y = pageHeight - padding - drawHeight;
+
+            contentStream.drawImage(madeImg, x, y, drawWidth, drawHeight);
 
             contentStream.close();
 
