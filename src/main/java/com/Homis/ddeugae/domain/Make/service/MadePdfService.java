@@ -39,7 +39,9 @@ public class MadePdfService {
 
     private void addMadeDetailToPdf(PDDocument doc, PDPage page, String madeDetail){
         try {
-            PDPageContentStream pageContentStream = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
+            PDPageContentStream pageContentStream = new PDPageContentStream(doc, page,
+                    PDPageContentStream.AppendMode.APPEND, true, true);
+
             PDFont font = PDType0Font.load(doc,
                     new File("C:\\Users\\user\\Homis-BE\\ddeugae\\src\\main\\resources\\fonts\\Pretendard-Medium.ttf"));
 
