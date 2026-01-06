@@ -22,6 +22,7 @@ public class MakeService {
     private final MadeDesignImageService madeDesignImageService;
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
+    private final MadePdfService madePdfService;
 
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
         // 존재하는 사용자인지 확인
@@ -41,20 +42,30 @@ public class MakeService {
         String target_url = uploadReq.getDesignPreviewUrl();
         String design_image_url = madeDesignImageService.createAndStoreImage(target_url);
 
-        // MadeDto로 문제되는 값 없는지 확인
+        // MadeDto로 문제되는 값 없는지 중간 점검
         Integer size = uploadReq.getSize();
         MadeDto check = new MadeDto(made_name, size, design_image_url);
 
-        // 도안 제작 내용 저장
+        // 도안 제작 내용 중간 저장
         Made.MadeBuilder builder = Made.builder()
                 .madeName(made_name)
                 .madeSize(size)
                 .user(userDoc)
                 .madeImgUrl(design_image_url)
                 .createdAt(requested_at);
-        if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트는 없을 수 있음
-            builder.madeDetail(uploadReq.getScript());
+
+        // 상세 스크립트는 없을 수 있음 -> 값 존재 여부에 따라 build 내용 달라짐
+        if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
+            String made_detail = uploadReq.getScript();
+            String design_pdf_url = madePdfService.createAndStorePdf(design_image_url, made_detail);
+
+            builder.madeDetail(made_detail);
+            builder.madePdfUrl(design_pdf_url);
+        } else { // 상세 스크립트 없음
+            String design_pdf_url = madePdfService.createAndStorePdfExcludeDetail(design_image_url);
+            builder.madePdfUrl(design_pdf_url);
         }
+
         Made made = builder.build();
         madeRepository.save(made);
     }
