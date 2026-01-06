@@ -35,8 +35,15 @@ public class ContentStreamForText {
         this.leading = 1.4f * fontSize; // 줄간격 140%
         this.usableWidth = PDRectangle.A4.getWidth() - 2 * padding;
 
+        this.contentStream = setting(doc, currPage);
+
+        this.currY = startY;
+    }
+
+    // 세팅
+    private PDPageContentStream setting(PDDocument doc, PDPage page){
         try {
-            this.contentStream = new PDPageContentStream(doc, currPage, PDPageContentStream.AppendMode.APPEND, true, true);
+            contentStream = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true);
 
             contentStream.setFont(this.font, fontSize);
             contentStream.setNonStrokingColor(0, 0, 0); // 검정색
@@ -44,18 +51,35 @@ public class ContentStreamForText {
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
 
-            this.currY = startY;
+            return contentStream;
+        } catch (IOException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    // 페이지 추가
+    private void newPage(){
+        try{
+            contentStream.endText();
+            contentStream.close();
+
+            currPage = new PDPage(PDRectangle.A4);
+            doc.addPage(currPage);
+
+            contentStream = setting(doc, currPage);
+
+            currY = startY;
+
+        } catch (IOException ie){
+            throw new RuntimeException(ie);
         }
     }
 
     // 한줄 출력
     private void writeLine(String text){
         try{
-            if (currY - leading < padding) { // todo: 새 페이지 생성
-            }
+            // 사용 가능 높이 다 썼으면 새 페이지 생성!
+            if (currY - leading < padding) { newPage(); }
 
             contentStream.showText(text);
             contentStream.newLineAtOffset(0, -leading);
