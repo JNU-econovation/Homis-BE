@@ -46,7 +46,7 @@ public class MakeController {
                                                 MadePreviewData));
     }
 
-    @GetMapping("/detail/{madeDataId}")
+    @GetMapping("/detail")
     public ResponseEntity<ApiResponse<?>> loadMadeDetail(
             HttpServletRequest request,
             @RequestParam(name = "madeDataId") Long madeDataId){
