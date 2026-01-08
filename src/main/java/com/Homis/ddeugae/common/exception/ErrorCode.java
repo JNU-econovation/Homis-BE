@@ -10,7 +10,6 @@ public enum ErrorCode {
     // ---400
     SAME_NAME_PASSWORD(HttpStatus.BAD_REQUEST, "001_SAME_NAME_PASSWORD", "ID와 비밀번호는 같을 수 없습니다."),
     NOT_USER(HttpStatus.BAD_REQUEST, "002_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
-    NOT_FOUND_MADE(HttpStatus.BAD_REQUEST, "003_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
 
     // ---401
     UNKNOWN_AUTH_ERROR(HttpStatus.UNAUTHORIZED, "100_UNKNOWN_AUTH_ERROR", "알 수 없는 사용자 인증 오류"),
@@ -19,6 +18,12 @@ public enum ErrorCode {
     EXPIRED_ACCESS(HttpStatus.UNAUTHORIZED, "103_EXPIRED_ACCESS", "액세스토큰이 만료되었습니다. 재발급 필요"),
     REQUIRED_RE_LOGIN(HttpStatus.UNAUTHORIZED, "104_REQUIRED_RE_LOGIN", "리프레시토큰까지 만료되었습니다. 재로그인 필요"),
     NOT_FOUND_USER(HttpStatus.UNAUTHORIZED, "105_NOT_FOUND_USER","존재하지 않는 사용자에 대한 토큰"),
+
+    // ---403
+    NOT_OWNER(HttpStatus.FORBIDDEN, "300_NOT_OWNER", "게시글 작성자가 아닙니다."),
+
+    // ---404
+    NOT_FOUND_MADE(HttpStatus.NOT_FOUND, "400_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
 
     // ---409
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "901_DUPLICATED_USER_NAME", "이미 등록된 아이디"),

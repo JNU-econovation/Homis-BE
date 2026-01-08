@@ -86,9 +86,12 @@ public class MakeService {
             throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
 
-        // 존재하는 도안 게시글인지 확인
-        if (madeRepository.findById(madeDataId).isEmpty()){
-            throw new CustomException(ErrorCode.NOT_FOUND_MADE);
+        Made madePost = madeRepository.findById(madeDataId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
+
+        // 도안 제작자인지 확인
+        if (!userDataId.equals(madePost.getUserDataId())){
+            throw new CustomException(ErrorCode.NOT_OWNER);
         }
 
         return madeRepository.findDetailByMadeDataId(madeDataId);
