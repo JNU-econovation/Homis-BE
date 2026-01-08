@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Make.controller;
 
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.tags.Param;
 
 import java.util.List;
 
@@ -48,7 +48,15 @@ public class MakeController {
 
     @GetMapping("/detail/{madeDataId}")
     public ResponseEntity<ApiResponse<?>> loadMadeDetail(
-            HttpServletRequest request, Param queryParam){
+            HttpServletRequest request,
+            @RequestParam(name = "madeDataId") Long madeDataId){
 
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        MadeDetailMapping madeDetailData = makeService.getMadeDetail(userDataId, madeDataId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "도안 제작 상세페이지 내용 불러오기 성공",
+                                                madeDetailData));
     }
 }
