@@ -28,7 +28,7 @@ public class MakeService {
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_ACCESS);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
         final User userDoc = userRepository.findById(userDataId).get();
 
@@ -74,7 +74,7 @@ public class MakeService {
     public List<MadePreviewMapping> getMadePreview(Long userDataId) {
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_ACCESS);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
 
         return madeRepository.findAllByMakerDataId(userDataId);

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import java.util.List;
 
@@ -43,5 +44,11 @@ public class MakeController {
                 .body(ApiResponse.success("200",
                                         "도안 제작 미리보기 내용 불러오기 성공 (메인 페이지 구성용)",
                                                 MadePreviewData));
+    }
+
+    @GetMapping("/detail/{madeDataId}")
+    public ResponseEntity<ApiResponse<?>> loadMadeDetail(
+            HttpServletRequest request, Param queryParam){
+
     }
 }

@@ -17,6 +17,7 @@ public enum ErrorCode {
     INVALID_ACCESS(HttpStatus.UNAUTHORIZED, "102_INVALID_ACCESS", "JWT 토큰 오류 발생"),
     EXPIRED_ACCESS(HttpStatus.UNAUTHORIZED, "103_EXPIRED_ACCESS", "액세스토큰이 만료되었습니다. 재발급 필요"),
     REQUIRED_RE_LOGIN(HttpStatus.UNAUTHORIZED, "104_REQUIRED_RE_LOGIN", "리프레시토큰까지 만료되었습니다. 재로그인 필요"),
+    NOT_FOUND_USER(HttpStatus.UNAUTHORIZED, "105_NOT_FOUND_USER","존재하지 않는 사용자에 대한 토큰"),
 
     // ---409
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "901_DUPLICATED_USER_NAME", "이미 등록된 아이디"),
