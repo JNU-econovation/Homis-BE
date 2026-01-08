@@ -13,5 +13,5 @@ public interface MadeRepository extends JpaRepository<Made, Long> {
 
     @Query(value = "SELECT made_data_id, made_name, made_img_url, made_pdf_url, made_detail FROM made WHERE(made_data_id=:made_data_id)",
             nativeQuery = true)
-    List<MadeDetailMapping> findDetailByMadeDataId(@Param("made_data_id") Long madeDataId);
+    MadeDetailMapping findDetailByMadeDataId(@Param("made_data_id") Long madeDataId);
 }
