@@ -80,7 +80,12 @@ public class MakeService {
         return madeRepository.findAllByMakerDataId(userDataId);
     }
 
-    public List<MadeDetailMapping> getMadeDetail(Long madeDataId) {
+    public List<MadeDetailMapping> getMadeDetail(Long userDataId, Long madeDataId) {
+        // 존재하는 사용자인지 확인
+        if (userRepository.findById(userDataId).isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+
         // 존재하는 도안 게시글인지 확인
         if (madeRepository.findById(madeDataId).isEmpty()){
             // 에러 던지기
