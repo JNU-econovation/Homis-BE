@@ -88,7 +88,7 @@ public class MakeService {
 
         // 존재하는 도안 게시글인지 확인
         if (madeRepository.findById(madeDataId).isEmpty()){
-            // 에러 던지기
+            throw new CustomException(ErrorCode.NOT_FOUND_MADE);
         }
 
         return madeRepository.findDetailByMadeDataId(madeDataId);

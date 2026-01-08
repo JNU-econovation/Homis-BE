@@ -10,6 +10,7 @@ public enum ErrorCode {
     // ---400
     SAME_NAME_PASSWORD(HttpStatus.BAD_REQUEST, "001_SAME_NAME_PASSWORD", "ID와 비밀번호는 같을 수 없습니다."),
     NOT_USER(HttpStatus.BAD_REQUEST, "002_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
+    NOT_FOUND_MADE(HttpStatus.BAD_REQUEST, "003_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
 
     // ---401
     UNKNOWN_AUTH_ERROR(HttpStatus.UNAUTHORIZED, "100_UNKNOWN_AUTH_ERROR", "알 수 없는 사용자 인증 오류"),
