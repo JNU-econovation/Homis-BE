@@ -96,4 +96,21 @@ public class MakeService {
 
         return madeRepository.findDetailByMadeDataId(madeDataId);
     }
+
+    public void deleteMadePost(Long userDataId, Long madeDataId){
+        // 존재하는 사용자인지 확인
+        if (userRepository.findById(userDataId).isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+
+        Made madePost = madeRepository.findById(madeDataId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
+
+        // 도안 제작자인지 확인
+        if (!userDataId.equals(madePost.getUserDataId())){
+            throw new CustomException(ErrorCode.NOT_OWNER);
+        }
+
+        madeRepository.deleteById(madeDataId); // 삭제
+    }
 }

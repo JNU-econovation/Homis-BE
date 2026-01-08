@@ -35,21 +35,21 @@ public class MakeController {
     }
 
     @GetMapping("/preview")
-    public ResponseEntity<ApiResponse<?>> madePreview(HttpServletRequest request){
+    public ResponseEntity<ApiResponse<?>> madePreview(HttpServletRequest request) {
         Long userDataId = (Long) request.getAttribute("userDataId");
 
         List<MadePreviewMapping> MadePreviewData = makeService.getMadePreview(userDataId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200",
-                                        "도안 제작 미리보기 내용 불러오기 성공 (메인 페이지 구성용)",
-                                                MadePreviewData));
+                        "도안 제작 미리보기 내용 불러오기 성공 (메인 페이지 구성용)",
+                        MadePreviewData));
     }
 
     @GetMapping("/detail")
     public ResponseEntity<ApiResponse<?>> loadMadeDetail(
             HttpServletRequest request,
-            @RequestParam(name = "madeDataId") Long madeDataId){
+            @RequestParam(name = "madeDataId") Long madeDataId) {
 
         Long userDataId = (Long) request.getAttribute("userDataId");
 
@@ -57,6 +57,18 @@ public class MakeController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "도안 제작 상세페이지 내용 불러오기 성공",
-                                                madeDetailData));
+                        madeDetailData));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<?>> deleteMadePost(
+            HttpServletRequest request,
+            @RequestParam(name = "madeDataId") Long madeDataID) {
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        makeService.deleteMadePost(userDataId, madeDataID);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "도안 제작 게시글 삭제 성공"));
     }
 }
