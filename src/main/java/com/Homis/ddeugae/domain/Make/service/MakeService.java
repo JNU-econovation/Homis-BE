@@ -5,6 +5,7 @@ import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
+import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
@@ -77,5 +78,14 @@ public class MakeService {
         }
 
         return madeRepository.findAllByMakerDataId(userDataId);
+    }
+
+    public List<MadeDetailMapping> getMadeDetail(Long madeDataId) {
+        // 존재하는 도안 게시글인지 확인
+        if (madeRepository.findById(madeDataId).isEmpty()){
+            // 에러 던지기
+        }
+
+        return madeRepository.findDetailByMadeDataId(madeDataId);
     }
 }
