@@ -6,6 +6,7 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.azure.storage.blob.models.BlobStorageException;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,7 @@ public class BlobStorageManager {
     public void fileDelete(String blobName){
         try {
             BlobClient blobClient = containerClient.getBlobClient(blobName);
-            boolean existence = blobClient.deleteIfExists();
+            Boolean existence = blobClient.deleteIfExists();
             if (!existence){
                 // throw new 존재하지 않는 blob 삭제하려 시도했다~
             }
@@ -50,17 +51,16 @@ public class BlobStorageManager {
     /**
      * 업로드할 파일, Content-Type, 확장자 받아 Blob Storage에 저장
      *
-     * @param fileName : made-design-<도안명> 같은 string
      * @param data : 이미지(byte array) 등의 파일 바이트
      * @param contentType : e.g. "image/png", "application/pdf"
      * @param extension : 확장자명 e.g. "png", "pdf"
      * @return : 업로드된 Blob URL -> DB에 저장될 예정
      */
-    public String fileUpload(String fileName, byte[] data, String contentType, String extension){
+    public String fileUpload(byte[] data, String contentType, String extension){
         try{
-            String blobFileName = fileName + "-" + UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
+            String filename = UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
 
-            BlobClient blobClient = containerClient.getBlobClient(blobFileName); // 생성한 파일명으로 Blob 객체 가져옴
+            BlobClient blobClient = containerClient.getBlobClient(filename); // 생성한 파일명으로 Blob 객체 가져옴
 
             // Blob에 데이터 업로드
             blobClient.upload(
