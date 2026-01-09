@@ -33,7 +33,7 @@ public class BlobStorageManager {
     public void fileDelete(String blobName){
         try {
             BlobClient blobClient = containerClient.getBlobClient(blobName);
-            Boolean existence = blobClient.deleteIfExists();
+            boolean existence = blobClient.deleteIfExists();
             if (!existence){
                 // throw new 존재하지 않는 blob 삭제하려 시도했다~
             }
