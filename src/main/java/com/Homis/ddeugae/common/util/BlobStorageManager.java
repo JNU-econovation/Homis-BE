@@ -6,7 +6,6 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.azure.storage.blob.models.BlobStorageException;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +15,8 @@ import java.util.UUID;
 @Component
 public class BlobStorageManager {
     private final BlobContainerClient containerClient; // homis-file 컨테이너와 연결될 클라이언트
+    @Value("${spring.cloud.azure.storage.blob.prefix-url}")
+    private String UrlPrefix;
 
     // spring cloud azure를 이용해 설정해둔 이름과 일치하는 컨테이너 클라이언트 가져와 설정
     public BlobStorageManager(BlobContainerClient blobServiceClient,
@@ -29,19 +30,19 @@ public class BlobStorageManager {
     /**
      * Blob Storage에 있는 blobName의 blob(파일) 삭제
      *
-     * @param blobName : 삭제할 파일, blob의 이름. (확장자 포함)
+     * @param blobUrl : 삭제할 파일, blob의 URL
      */
-    public void fileDelete(String blobName){
+    public void fileDelete(String blobUrl){
         try {
-            BlobClient blobClient = containerClient.getBlobClient(blobName);
-            Boolean existence = blobClient.deleteIfExists();
+            BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
+            boolean existence = blobClient.deleteIfExists();
             if (!existence){
-                // throw new 존재하지 않는 blob 삭제하려 시도했다~
+                throw new CustomException(ErrorCode.BLOB_NOT_FOUND);
             }
         } catch (BlobStorageException be){
-            // throw new 블롭 삭제 중 오류 발생~
+            throw new CustomException(ErrorCode.BLOB_FAILED_DELETE, be);
         } catch (Exception e){
-            // throw new 블롭 삭제 중 알 수 없는 오류 발생~
+            throw new CustomException(ErrorCode.UNKNOWN_FAILED_DELETE_FILE, e);
         }
     }
     
