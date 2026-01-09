@@ -61,7 +61,7 @@ public class MakeService {
                 .createdAt(requested_at);
 
         // 상세 스크립트는 없을 수 있음 -> 값 존재 여부에 따라 build 내용 달라짐
-        if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
+        if (uploadReq.getScript() != null && !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
             String made_detail = uploadReq.getScript();
             String design_pdf_url = madePdfService.createAndStorePdf(design_image_url, made_detail);
 
