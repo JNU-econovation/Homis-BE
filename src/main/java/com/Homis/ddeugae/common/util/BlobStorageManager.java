@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @Component
@@ -36,7 +37,7 @@ public class BlobStorageManager {
      */
     public OutputStream downloadBlobToStream(String blobUrl){
         BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
-        
+
         // 존재하는 blob이라면 outputstream 담아서 반환
     }
 
@@ -73,7 +74,7 @@ public class BlobStorageManager {
      */
     public String fileUpload(byte[] data, String contentType, String extension){
         try{
-            String filename = "Knit_Doa-made_design-" + UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
+            String filename = "made-" + UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
 
             BlobClient blobClient = containerClient.getBlobClient(filename); // 생성한 파일명으로 Blob 객체 가져옴
 
