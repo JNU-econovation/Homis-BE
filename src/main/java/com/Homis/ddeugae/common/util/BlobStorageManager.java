@@ -47,10 +47,10 @@ public class BlobStorageManager {
     }
     
     // --- 업로드
-    // TODO: InputStream으로 업로드하는 메소드 추가
+    // TODO: InputStream으로 업로드하는 메소드 추가 [도안 판매 등록]
 
     /**
-     * 업로드할 파일, Content-Type, 확장자 받아 Blob Storage에 저장
+     * [도안 제작] 업로드할 파일, Content-Type, 확장자 받아 Blob Storage에 저장
      *
      * @param data : 이미지(byte array) 등의 파일 바이트
      * @param contentType : e.g. "image/png", "application/pdf"
@@ -59,7 +59,7 @@ public class BlobStorageManager {
      */
     public String fileUpload(byte[] data, String contentType, String extension){
         try{
-            String filename = UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
+            String filename = "Knit_Doa-made_design-" + UUID.randomUUID() + "." + extension; // UUID 통해 저장될 파일명 생성 -> 충돌 방지
 
             BlobClient blobClient = containerClient.getBlobClient(filename); // 생성한 파일명으로 Blob 객체 가져옴
 
