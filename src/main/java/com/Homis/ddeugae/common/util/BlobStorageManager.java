@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.UUID;
@@ -37,8 +39,12 @@ public class BlobStorageManager {
      */
     public OutputStream downloadBlobToStream(String blobUrl){
         BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
-
-        // 존재하는 blob이라면 outputstream 담아서 반환
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            blobClient.downloadStream(outputStream);
+            return outputStream;
+        } catch (IOException ie) {
+            throw new RuntimeException(ie); // custom하기...
+        }
     }
 
     // ---삭제
