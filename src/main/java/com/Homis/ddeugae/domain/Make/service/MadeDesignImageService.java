@@ -2,21 +2,17 @@ package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
-import com.Homis.ddeugae.common.util.BlobStorageUploader;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
 @Service
 @RequiredArgsConstructor
 public class MadeDesignImageService {
     private final WebSnapAPIService webSnapAPIService;
-    private final BlobStorageUploader blobUploader;
+    private final BlobStorageManager blobUploader;
 
     @Value("${websnap.auth.token}")
     private String websnapToken;

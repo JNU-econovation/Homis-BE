@@ -13,12 +13,12 @@ import java.io.ByteArrayInputStream;
 import java.util.UUID;
 
 @Component
-public class BlobStorageUploader {
+public class BlobStorageManager {
     private final BlobContainerClient containerClient; // homis-file 컨테이너와 연결될 클라이언트
 
     // spring cloud azure를 이용해 설정해둔 이름과 일치하는 컨테이너 클라이언트 가져와 설정
-    public BlobStorageUploader(BlobContainerClient blobServiceClient,
-                               @Value("${spring.cloud.azure.storage.blob.container-name}")
+    public BlobStorageManager(BlobContainerClient blobServiceClient,
+                              @Value("${spring.cloud.azure.storage.blob.container-name}")
                                String containerName){
         this.containerClient =
                 blobServiceClient.getServiceClient().getBlobContainerClient(containerName);

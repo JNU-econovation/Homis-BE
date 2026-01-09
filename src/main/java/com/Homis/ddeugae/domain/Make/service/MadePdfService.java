@@ -3,7 +3,7 @@ package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
-import com.Homis.ddeugae.common.util.BlobStorageUploader;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.util.ContentStreamForText;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -26,7 +25,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MadePdfService {
-    private final BlobStorageUploader blobUploader;
+    private final BlobStorageManager blobUploader;
 
     private void addMadeImgToPdf(PDDocument doc, PDPage page, String madeImgUrl){
         try{
