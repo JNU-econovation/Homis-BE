@@ -111,6 +111,8 @@ public class MakeService {
             throw new CustomException(ErrorCode.NOT_OWNER);
         }
 
+        // TODO : BLOB storage에 있는 파일들 삭제
+
         madeRepository.deleteById(madeDataId); // 삭제
     }
 }
