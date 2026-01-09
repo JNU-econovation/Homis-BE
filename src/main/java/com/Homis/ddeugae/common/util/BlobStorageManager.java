@@ -23,6 +23,9 @@ public class BlobStorageManager {
         this.containerClient =
                 blobServiceClient.getServiceClient().getBlobContainerClient(containerName);
     }
+    
+    // --- 업로드
+    // TODO: InputStream으로 업로드하는 메소드 추가
 
     /**
      * 업로드할 파일, Content-Type, 확장자 받아 Blob Storage에 저장
