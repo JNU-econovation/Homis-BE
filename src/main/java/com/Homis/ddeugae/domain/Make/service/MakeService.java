@@ -11,13 +11,16 @@ import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MakeService {
@@ -99,6 +102,7 @@ public class MakeService {
         return madeRepository.findDetailByMadeDataId(madeDataId);
     }
 
+    @Transactional
     public void deleteMadePost(Long userDataId, Long madeDataId){
         // 존재하는 사용자인지 확인
         if (userRepository.findById(userDataId).isEmpty()) {
@@ -113,9 +117,14 @@ public class MakeService {
             throw new CustomException(ErrorCode.NOT_OWNER);
         }
 
-        blobStorageManager.fileDelete(madePost.getMadeImgUrl());
-        blobStorageManager.fileDelete(madePost.getMadePdfUrl());
-
         madeRepository.deleteById(madeDataId); // 삭제
+
+        try{
+            blobStorageManager.fileDelete(madePost.getMadeImgUrl());
+            blobStorageManager.fileDelete(madePost.getMadePdfUrl());
+        } catch (Exception e){
+            log.error("[도안 제작 삭제 실패] - Blob 삭제 실패", e);
+        }
+
     }
 }
