@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
 import java.util.UUID;
 
 @Component
@@ -24,6 +25,19 @@ public class BlobStorageManager {
                                String containerName){
         this.containerClient =
                 blobServiceClient.getServiceClient().getBlobContainerClient(containerName);
+    }
+    
+    // ---다운로드
+    /**
+     * Blob Storage에 있는 blobName의 blob(파일) 다운로드 스트림 반환
+     *
+     * @param blobUrl : 다운로드할 파일, blob의 URL
+     * @return : Blob을 다운로드한 OutputStream 개체
+     */
+    public OutputStream downloadBlobToStream(String blobUrl){
+        BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
+        
+        // 존재하는 blob이라면 outputstream 담아서 반환
     }
 
     // ---삭제
