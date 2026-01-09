@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
@@ -24,6 +25,7 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
     private final MadePdfService madePdfService;
+    private final BlobStorageManager blobStorageManager;
 
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
         // 존재하는 사용자인지 확인
@@ -111,7 +113,8 @@ public class MakeService {
             throw new CustomException(ErrorCode.NOT_OWNER);
         }
 
-        // TODO : BLOB storage에 있는 파일들 삭제
+        blobStorageManager.fileDelete(madePost.getMadeImgUrl());
+        blobStorageManager.fileDelete(madePost.getMadePdfUrl());
 
         madeRepository.deleteById(madeDataId); // 삭제
     }
