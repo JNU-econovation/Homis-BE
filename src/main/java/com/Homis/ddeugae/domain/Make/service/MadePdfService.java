@@ -97,7 +97,7 @@ public class MadePdfService {
     }
 
     // 상세 설명 없을 때 사용할 메소드
-    public String createAndStorePdfExcludeDetail(String madeImgUrl){
+    public String createAndStorePdfExcludeDetail(String madeName, String madeImgUrl){
         PDDocument doc = new PDDocument();
 
         PDPage imgPage = new PDPage(PDRectangle.A4);
@@ -106,10 +106,12 @@ public class MadePdfService {
 
         byte[] pdfBytes = loadPdfBytes(doc);
 
-        return blobUploader.fileUpload(pdfBytes, "application/pdf", "pdf");
+        String fileName = "made-design-" + madeName;
+
+        return blobUploader.fileUpload(fileName, pdfBytes, "application/pdf", "pdf");
     }
 
-    public String createAndStorePdf(String madeImgUrl, String madeDetail){
+    public String createAndStorePdf(String madeName, String madeImgUrl, String madeDetail){
         PDDocument doc = new PDDocument();
 
         PDPage imgPage = new PDPage(PDRectangle.A4);
@@ -122,6 +124,8 @@ public class MadePdfService {
 
         byte[] pdfBytes = loadPdfBytes(doc);
 
-        return blobUploader.fileUpload(pdfBytes, "application/pdf", "pdf");
+        String fileName = "made-design-" + madeName;
+
+        return blobUploader.fileUpload(fileName, pdfBytes, "application/pdf", "pdf");
     }
 }

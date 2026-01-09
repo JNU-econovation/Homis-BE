@@ -41,7 +41,7 @@ public class MakeService {
 
         // 페이지 url -> 이미지 url -> 다운로드 -> blob storage 업로드 -> url (db 저장 예정)
         String target_url = uploadReq.getDesignPreviewUrl();
-        String design_image_url = madeDesignImageService.createAndStoreImage(target_url);
+        String design_image_url = madeDesignImageService.createAndStoreImage(made_name, target_url);
 
         // MadeDto로 문제되는 값 없는지 중간 점검
         Integer size = uploadReq.getSize();
@@ -58,12 +58,12 @@ public class MakeService {
         // 상세 스크립트는 없을 수 있음 -> 값 존재 여부에 따라 build 내용 달라짐
         if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
             String made_detail = uploadReq.getScript();
-            String design_pdf_url = madePdfService.createAndStorePdf(design_image_url, made_detail);
+            String design_pdf_url = madePdfService.createAndStorePdf(made_name, design_image_url, made_detail);
 
             builder.madeDetail(made_detail);
             builder.madePdfUrl(design_pdf_url);
         } else { // 상세 스크립트 없음
-            String design_pdf_url = madePdfService.createAndStorePdfExcludeDetail(design_image_url);
+            String design_pdf_url = madePdfService.createAndStorePdfExcludeDetail(made_name, design_image_url);
             builder.madePdfUrl(design_pdf_url);
         }
 

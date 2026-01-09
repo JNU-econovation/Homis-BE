@@ -41,7 +41,7 @@ public class MadeDesignImageService {
      * @param previewUrl : WebSnaAPI 요청에 담을 (렌더링 후 이미지 url 받을) preview 페이지 url
      * @return : blob storage에 업로드된 이미지 파일의 url
      */
-    public String createAndStoreImage(String previewUrl) { // blob storage url 반환
+    public String createAndStoreImage(String madeName, String previewUrl) { // blob storage url 반환
 
         // WebSnapAPI로 URL -> image_url 반환
         String websnapImageUrl = webSnapAPIService.captureDesign(previewUrl, websnapToken);
@@ -50,6 +50,7 @@ public class MadeDesignImageService {
         byte[] imageBytes = loadImageBytes(websnapImageUrl);
 
         // Azure Blob Storage에 이미지 업로드
-        return blobUploader.fileUpload(imageBytes, "image/png", "png");
+        String fileName = "made-design-" + madeName;
+        return blobUploader.fileUpload(fileName, imageBytes, "image/png", "png");
     }
 }
