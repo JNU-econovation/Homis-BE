@@ -31,10 +31,6 @@ public class MakeService {
     private final BlobStorageManager blobStorageManager;
 
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
-        // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        }
         final User userDoc = userRepository.findById(userDataId).get();
 
         // 타임스탬프 안 찍는 대신 요청 시점 기준으로 기록
@@ -77,20 +73,10 @@ public class MakeService {
     }
 
     public List<MadePreviewMapping> getMadePreview(Long userDataId) {
-        // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        }
-
         return madeRepository.findAllByMakerDataId(userDataId);
     }
 
     private Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
-        // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        }
-
         Made madePost = madeRepository.findById(madeDataId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
 
@@ -120,6 +106,5 @@ public class MakeService {
         } catch (Exception e){
             log.error("[도안 제작 삭제 실패] - Blob 삭제 실패", e);
         }
-
     }
 }
