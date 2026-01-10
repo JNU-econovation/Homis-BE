@@ -9,10 +9,7 @@ import com.azure.storage.blob.models.BlobStorageException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.UUID;
 
@@ -37,14 +34,9 @@ public class BlobStorageManager {
      * @param blobUrl : 다운로드할 파일, blob의 URL
      * @return : Blob을 다운로드한 OutputStream 개체
      */
-    public OutputStream downloadBlobToStream(String blobUrl){
+    public InputStream downloadBlobToStream(String blobUrl){
         BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            blobClient.downloadStream(outputStream);
-            return outputStream;
-        } catch (IOException ie) {
-            throw new RuntimeException(ie); // custom하기...
-        }
+        return blobClient.openInputStream();
     }
 
     // ---삭제
