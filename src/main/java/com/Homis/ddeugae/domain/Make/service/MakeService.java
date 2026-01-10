@@ -1,9 +1,11 @@
 package com.Homis.ddeugae.domain.Make.service;
 
+import com.Homis.ddeugae.common.enumType.FileType;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
+import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadInfoDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
 import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
@@ -108,13 +110,14 @@ public class MakeService {
         }
     }
 
-    public String getImgUrlMadePost(Long userDataId, Long madeDataId){
+    public MadeFileDownloadInfoDto getDownloadInfo(Long userDataId, Long madeDataId, FileType fileType){
         Made madePost = checkExistenceAndOwner(userDataId, madeDataId);
 
-        if (madePost.getMadeImgUrl() == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_IMG_FILE);
-        }
-
-        return madePost.getMadeImgUrl();
+        return switch (fileType){
+            case IMG -> new MadeFileDownloadInfoDto(
+                            madePost.getMadeImgUrl(), "png");
+            case PDF -> new MadeFileDownloadInfoDto(
+                            madePost.getMadePdfUrl(), "pdf");
+        };
     }
 }
