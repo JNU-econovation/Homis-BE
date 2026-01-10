@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class fileDownloadReq {
+public class FileDownloadReq {
     @NotNull(message = "다운로드 받을 파일의 게시글 ID가 없습니다.")
     private Long postDataId;
     @NotBlank(message = "다운로드 받을 파일의 URL이 없습니다.")
