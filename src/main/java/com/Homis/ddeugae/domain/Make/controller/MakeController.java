@@ -3,6 +3,7 @@ package com.Homis.ddeugae.domain.Make.controller;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
+import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadInfoDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadReq;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
@@ -92,18 +93,21 @@ public class MakeController {
             HttpServletRequest request,
             @RequestBody MadeFileDownloadReq downloadReq){
         Long userDataId = (Long) request.getAttribute("userDataId");
-        Long madeDataId = downloadReq.getMadeDataId();
 
-        String blobUrl = makeService.getImgUrlMadePost(userDataId, madeDataId);
+        MadeFileDownloadInfoDto info = makeService.getDownloadInfo(
+                                            userDataId, downloadReq.getMadeDataId(), downloadReq.getFileType());
 
-        String encodedFileName = URLEncoder.encode(downloadReq.getMadeName(), StandardCharsets.UTF_8).replace("+", "%20");
-        String downloadFileName = "Knit_Doa-" + encodedFileName + "-" + UUID.randomUUID() +".png";
+        String encodedFileName =
+                URLEncoder.encode(downloadReq.getMadeName(), StandardCharsets.UTF_8).replace("+", "%20");
+
+        String downloadFileName = "Knit_Doa-" + encodedFileName + "-" + UUID.randomUUID() + info.getExtension();
 
         StreamingResponseBody responseBody = outputStream ->  {
-            try (InputStream is = blobStorageManager.downloadBlobToStream(blobUrl)) {
+            try (InputStream is = blobStorageManager.downloadBlobToStream(info.getBlobUrl())) {
                 is.transferTo(outputStream);
+
             } catch (IOException ie) {
-                log.error("[이미지 다운로드 실패] blobUrl={}", blobUrl, ie);
+                log.error("[파일 다운로드 실패] blobUrl={}", info.getBlobUrl(), ie);
                 throw new CustomException(ErrorCode.BLOB_FAILED_LOAD_STREAM, ie);
             }
         };
