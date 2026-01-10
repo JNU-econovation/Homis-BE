@@ -25,7 +25,6 @@ public enum ErrorCode {
     // ---404
     NOT_FOUND_MADE(HttpStatus.NOT_FOUND, "400_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
     BLOB_NOT_FOUND(HttpStatus.NOT_FOUND, "401_BLOB_NOT_FOUND", "존재하지 않는 blob 삭제를 시도했음"),
-    NOT_FOUND_IMG_FILE(HttpStatus.NOT_FOUND, "402_NOT_FOUND_IMG_FILE", "게시글의 이미지 url이 존재하지 않음"),
 
     // ---409
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "901_DUPLICATED_USER_NAME", "이미 등록된 아이디"),
