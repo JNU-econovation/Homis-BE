@@ -111,10 +111,9 @@ public class MakeService {
     public String getImgUrlMadePost(Long userDataId, Long madeDataId){
         Made madePost = checkExistenceAndOwner(userDataId, madeDataId);
 
-        // TODO
-//        if (madePost.getMadeImgUrl() == null) {
-//            throw new CustomException(ErrorCode.NOT_FOUND_IMG_FILE);
-//        }
+        if (madePost.getMadeImgUrl() == null) {
+            throw new CustomException(ErrorCode.NOT_FOUND_IMG_FILE);
+        }
 
         return madePost.getMadeImgUrl();
     }
