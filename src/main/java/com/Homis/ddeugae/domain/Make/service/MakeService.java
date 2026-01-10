@@ -115,9 +115,9 @@ public class MakeService {
 
         return switch (fileType){
             case IMG -> new MadeFileDownloadInfoDto(
-                            madePost.getMadeImgUrl(), "png");
+                            madePost.getMadeImgUrl(), ".png");
             case PDF -> new MadeFileDownloadInfoDto(
-                            madePost.getMadePdfUrl(), "pdf");
+                            madePost.getMadePdfUrl(), ".pdf");
         };
     }
 }
