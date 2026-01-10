@@ -4,6 +4,5 @@ public interface MadeDetailMapping {
     long getMadeDataId();
     String getMadeName();
     String getMadeImgUrl();
-    String getMadePdfUrl();
     String getMadeDetail();
 }
