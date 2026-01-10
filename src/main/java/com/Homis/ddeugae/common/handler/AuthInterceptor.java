@@ -1,8 +1,9 @@
 package com.Homis.ddeugae.common.handler;
 
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.domain.Auth.jwt.JwtProvider;
+import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
 
     private String getBearerToken(final String bearer){
         if (bearer == null || !bearer.startsWith("Bearer ")){
@@ -38,6 +40,12 @@ public class AuthInterceptor implements HandlerInterceptor {
         try{
             Claims claim = jwtProvider.extractToken(accessToken);
             final Long userDataId = ((Number) claim.get("userDataId")).longValue();
+
+            // 존재하는 사용자인지 확인
+            if (userRepository.findById(userDataId).isEmpty()) {
+                throw new CustomException(ErrorCode.NOT_FOUND_USER);
+            }
+
             final String userNickname = claim.get("userNickname").toString();
 
             request.setAttribute("userDataId", userDataId);
@@ -45,6 +53,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             return true;
 
+        }catch (CustomException ce) {
+            throw ce;
         } catch (ExpiredJwtException eje){
             throw new CustomException(ErrorCode.EXPIRED_ACCESS);
         } catch (JwtException je){

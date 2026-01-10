@@ -1,7 +1,7 @@
 package com.Homis.ddeugae.common.exception;
 
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class CustomException extends RuntimeException {

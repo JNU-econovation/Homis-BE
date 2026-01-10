@@ -1,21 +1,28 @@
 package com.Homis.ddeugae.domain.Make.service;
 
+import com.Homis.ddeugae.common.enumType.FileType;
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
+import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadInfoDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.entity.Made;
+import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadeRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MakeService {
@@ -23,12 +30,9 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
     private final MadePdfService madePdfService;
+    private final BlobStorageManager blobStorageManager;
 
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
-        // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_ACCESS);
-        }
         final User userDoc = userRepository.findById(userDataId).get();
 
         // 타임스탬프 안 찍는 대신 요청 시점 기준으로 기록
@@ -55,7 +59,7 @@ public class MakeService {
                 .createdAt(requested_at);
 
         // 상세 스크립트는 없을 수 있음 -> 값 존재 여부에 따라 build 내용 달라짐
-        if (uploadReq.getScript() != null || !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
+        if (uploadReq.getScript() != null && !uploadReq.getScript().isBlank()) { // 상세 스크립트가 있을 경우
             String made_detail = uploadReq.getScript();
             String design_pdf_url = madePdfService.createAndStorePdf(design_image_url, made_detail);
 
@@ -71,11 +75,49 @@ public class MakeService {
     }
 
     public List<MadePreviewMapping> getMadePreview(Long userDataId) {
-        // 존재하는 사용자인지 확인
-        if (userRepository.findById(userDataId).isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_ACCESS);
+        return madeRepository.findAllByMakerDataId(userDataId);
+    }
+
+    private Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
+        Made madePost = madeRepository.findById(madeDataId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
+
+        // 도안 제작자인지 확인
+        if (!userDataId.equals(madePost.getUserDataId())){
+            throw new CustomException(ErrorCode.NOT_OWNER);
         }
 
-        return madeRepository.findAllByMakerDataId(userDataId);
+        return madePost;
+    }
+
+    public MadeDetailMapping getMadeDetail(Long userDataId, Long madeDataId) {
+        checkExistenceAndOwner(userDataId, madeDataId);
+
+        return madeRepository.findDetailByMadeDataId(madeDataId);
+    }
+
+    @Transactional
+    public void deleteMadePost(Long userDataId, Long madeDataId){
+        Made madePost = checkExistenceAndOwner(userDataId, madeDataId);
+
+        madeRepository.delete(madePost); // 삭제
+
+        try{
+            blobStorageManager.fileDelete(madePost.getMadeImgUrl());
+            blobStorageManager.fileDelete(madePost.getMadePdfUrl());
+        } catch (Exception e){
+            log.error("[도안 제작 삭제 실패] - Blob 삭제 실패", e);
+        }
+    }
+
+    public MadeFileDownloadInfoDto getDownloadInfo(Long userDataId, Long madeDataId, FileType fileType){
+        Made madePost = checkExistenceAndOwner(userDataId, madeDataId);
+
+        return switch (fileType){
+            case IMG -> new MadeFileDownloadInfoDto(
+                            madePost.getMadeImgUrl(), ".png");
+            case PDF -> new MadeFileDownloadInfoDto(
+                            madePost.getMadePdfUrl(), ".pdf");
+        };
     }
 }

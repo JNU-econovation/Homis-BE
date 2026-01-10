@@ -1,7 +1,7 @@
 package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;

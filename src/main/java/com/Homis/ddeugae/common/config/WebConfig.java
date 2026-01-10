@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://*.ngrok-free.dev")
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(true)
+                .exposedHeaders("Content-Disposition");
     }
 }
