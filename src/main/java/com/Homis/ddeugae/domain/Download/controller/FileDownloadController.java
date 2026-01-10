@@ -1,10 +1,14 @@
 package com.Homis.ddeugae.domain.Download.controller;
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.exception.ErrorCode;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Download.dto.FileDownloadReq;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +27,7 @@ import java.util.UUID;
 @RequestMapping("/api/download")
 @RequiredArgsConstructor
 public class FileDownloadController {
+    private static final Logger log = LoggerFactory.getLogger(FileDownloadController.class);
     private final MakeService makeService;
     private final BlobStorageManager blobStorageManager;
 
@@ -43,7 +48,8 @@ public class FileDownloadController {
             try (InputStream is = blobStorageManager.downloadBlobToStream(blobUrl)) {
                 is.transferTo(outputStream);
             } catch (IOException ie) {
-                throw ie; // custom하기 + log 남기기
+                log.error("[이미지 다운로드 실패] blobUrl={}", blobUrl, ie);
+                throw new CustomException(ErrorCode.BLOB_FAILED_LOAD_STREAM, ie);
             }
         };
 
