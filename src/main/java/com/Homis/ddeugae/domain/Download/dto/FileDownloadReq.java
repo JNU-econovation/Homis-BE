@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class FileDownloadReq {
     @NotNull(message = "다운로드 받을 파일의 게시글 ID가 없습니다.")
     private Long postDataId;
-    @NotBlank(message = "다운로드 받을 파일의 URL이 없습니다.")
-    private String fileUrl;
+    @NotBlank(message = "다운로드 받을 파일의 이름을 지정하지 않았습니다.")
+    private String fileName;
 }
