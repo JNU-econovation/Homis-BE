@@ -76,7 +76,7 @@ public class MakeService {
         return madeRepository.findAllByMakerDataId(userDataId);
     }
 
-    public Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
+    private Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
         Made madePost = madeRepository.findById(madeDataId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
 
@@ -106,5 +106,16 @@ public class MakeService {
         } catch (Exception e){
             log.error("[도안 제작 삭제 실패] - Blob 삭제 실패", e);
         }
+    }
+
+    public String getImgUrlMadePost(Long userDataId, Long madeDataId){
+        Made madePost = checkExistenceAndOwner(userDataId, madeDataId);
+
+        // TODO
+//        if (madePost.getMadeImgUrl() == null) {
+//            throw new CustomException(ErrorCode.NOT_FOUND_IMG_FILE);
+//        }
+
+        return madePost.getMadeImgUrl();
     }
 }
