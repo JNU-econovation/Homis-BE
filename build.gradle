@@ -40,6 +40,8 @@ dependencies {
     implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob'
 
     implementation 'org.apache.pdfbox:pdfbox:2.0.35'
+
+    implementation "ch.qos.logback:logback-classic"
 }
 
 tasks.named('test') {
