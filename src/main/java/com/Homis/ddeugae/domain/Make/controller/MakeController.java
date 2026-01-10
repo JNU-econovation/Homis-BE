@@ -7,6 +7,7 @@ import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadInfoDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadReq;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Make.dto.V2MadeUploadReq;
 import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
@@ -42,6 +43,20 @@ public class MakeController {
         Long userDataId = (Long) request.getAttribute("userDataId");
 
         makeService.uploadMadeDesign(uploadReq, userDataId);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공"));
+    }
+
+    // FE에서 넘겨준 이미지 문자열로 내용 저장 API
+    @PostMapping("/upload-v2")
+    public ResponseEntity<ApiResponse<?>> madeUpload_v2(
+            HttpServletRequest request,
+            @RequestBody @Valid V2MadeUploadReq uploadReq){
+
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        makeService.v2_uploadMadeDesign(uploadReq, userDataId);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "도안 제작 내용 업로드(저장) 성공"));

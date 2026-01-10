@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Base64;
+
 @Service
 @RequiredArgsConstructor
 public class MadeDesignImageService {
@@ -50,6 +52,12 @@ public class MadeDesignImageService {
         byte[] imageBytes = loadImageBytes(websnapImageUrl);
 
         // Azure Blob Storage에 이미지 업로드
+        return blobUploader.fileUpload(imageBytes, "image/png", "png");
+    }
+
+    public String v2_createAndStoreImage(String encodedImg){
+        byte[] imageBytes = Base64.getDecoder().decode(encodedImg);
+
         return blobUploader.fileUpload(imageBytes, "image/png", "png");
     }
 }
