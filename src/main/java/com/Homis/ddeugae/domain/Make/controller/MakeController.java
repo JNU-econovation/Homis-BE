@@ -1,5 +1,9 @@
 package com.Homis.ddeugae.domain.Make.controller;
 
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
+import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadReq;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import com.Homis.ddeugae.domain.Make.repository.MadeDetailMapping;
@@ -8,17 +12,28 @@ import com.Homis.ddeugae.domain.Make.service.MakeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/design-make")
 @RequiredArgsConstructor
 public class MakeController {
+    private static final Logger log = LoggerFactory.getLogger(MakeController.class);
     private final MakeService makeService;
+    private final BlobStorageManager blobStorageManager;
 
     // 도안 제작 내용 저장 API
     @PostMapping("/upload")
@@ -70,5 +85,33 @@ public class MakeController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "도안 제작 게시글 삭제 성공"));
+    }
+
+    @PostMapping("/download")
+    public ResponseEntity<StreamingResponseBody> downloadImgFile(
+            HttpServletRequest request,
+            @RequestBody MadeFileDownloadReq downloadReq){
+        Long userDataId = (Long) request.getAttribute("userDataId");
+        Long madeDataId = downloadReq.getMadeDataId();
+
+        String blobUrl = makeService.getImgUrlMadePost(userDataId, madeDataId);
+
+        String encodedFileName = URLEncoder.encode(downloadReq.getMadeName(), StandardCharsets.UTF_8).replace("+", "%20");
+        String downloadFileName = "Knit_Doa-" + encodedFileName + "-" + UUID.randomUUID() +".png";
+
+        StreamingResponseBody responseBody = outputStream ->  {
+            try (InputStream is = blobStorageManager.downloadBlobToStream(blobUrl)) {
+                is.transferTo(outputStream);
+            } catch (IOException ie) {
+                log.error("[이미지 다운로드 실패] blobUrl={}", blobUrl, ie);
+                throw new CustomException(ErrorCode.BLOB_FAILED_LOAD_STREAM, ie);
+            }
+        };
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition",
+                        "attachment; filename*=UTF-8''" + downloadFileName)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(responseBody);
     }
 }
