@@ -37,7 +37,7 @@ public class ContentStreamForText {
         this.currPage = startPage;
         this.font = font;
 
-        this.fontSize = 12f;            // 폰트 크기 15px
+        this.fontSize = 13f;            // 폰트 크기 13px
         this.leading = 1.4f * fontSize; // 줄간격 140%
         this.usableWidth = PDRectangle.A4.getWidth() - 2 * padding;
 

@@ -67,7 +67,7 @@ public class MadePdfService {
 
     private void addMadeDetailToPdf(PDDocument doc, PDPage page, String madeDetail){
         try {
-            InputStream fontStream = getClass().getResourceAsStream("/fonts/Pretendard-Medium.ttf");
+            InputStream fontStream = getClass().getResourceAsStream("/fonts/Pretendard-Regular.ttf");
             PDFont font = PDType0Font.load(doc, fontStream);
 
             ContentStreamForText contentStreamForText = new ContentStreamForText(doc, page, font);
