@@ -106,7 +106,6 @@ public class MakeController {
                 is.transferTo(outputStream);
 
             } catch (IOException ie) {
-                log.error("[파일 다운로드 실패] blobUrl={}", info.getBlobUrl(), ie);
                 throw new CustomException(ErrorCode.BLOB_FAILED_LOAD_STREAM, ie);
             }
         };
