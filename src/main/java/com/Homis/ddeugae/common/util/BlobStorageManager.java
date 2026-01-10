@@ -32,7 +32,7 @@ public class BlobStorageManager {
      * Blob Storage에 있는 blobName의 blob(파일) 다운로드 스트림 반환
      *
      * @param blobUrl : 다운로드할 파일, blob의 URL
-     * @return : Blob을 다운로드한 OutputStream 개체
+     * @return : Blob을 다운로드한 inputStream 개체
      */
     public InputStream downloadBlobToStream(String blobUrl){
         BlobClient blobClient = containerClient.getBlobClient(blobUrl.substring(UrlPrefix.length()));
