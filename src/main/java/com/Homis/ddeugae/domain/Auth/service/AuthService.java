@@ -1,6 +1,6 @@
 package com.Homis.ddeugae.domain.Auth.service;
 
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.domain.Auth.jwt.JwtProvider;
 import com.Homis.ddeugae.common.util.Pbkdf2Encoder;

@@ -1,7 +1,7 @@
 package com.Homis.ddeugae.domain.Make.service;
 
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;

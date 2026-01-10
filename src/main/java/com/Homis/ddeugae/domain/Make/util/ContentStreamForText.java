@@ -2,7 +2,7 @@ package com.Homis.ddeugae.domain.Make.util;
 
 
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;

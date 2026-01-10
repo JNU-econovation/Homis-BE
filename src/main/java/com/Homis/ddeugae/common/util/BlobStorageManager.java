@@ -1,7 +1,7 @@
 package com.Homis.ddeugae.common.util;
 
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.exception.ErrorCode;
+import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.models.BlobHttpHeaders;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.UUID;
 
 @Component
