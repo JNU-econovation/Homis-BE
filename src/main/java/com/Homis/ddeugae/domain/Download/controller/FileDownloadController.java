@@ -56,7 +56,7 @@ public class FileDownloadController {
         return ResponseEntity.ok()
                 .header("Content-Disposition",
                         "attachment; filename*=UTF-8''" + downloadFileName)
-                .contentType(MediaType.IMAGE_PNG)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(responseBody);
     }
 }
