@@ -6,6 +6,7 @@ import com.Homis.ddeugae.common.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> validHandler(MethodArgumentNotValidException me) {
         String message = me.getBindingResult()
                 .getAllErrors().getLast().getDefaultMessage();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error("400", message));
+    }
+
+    // FileType에 대한 에러만 처리됨
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<?>> jsonParseErrorHandler(HttpMessageNotReadableException hmne) {
+        String message = "[다운로드 받을 파일의 종류가 올바르지 않습니다 - IMG 혹은 PDF 지정] " + hmne.getMessage();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error("400", message));
