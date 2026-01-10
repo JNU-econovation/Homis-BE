@@ -76,7 +76,7 @@ public class MakeService {
         return madeRepository.findAllByMakerDataId(userDataId);
     }
 
-    private Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
+    public Made checkExistenceAndOwner(Long userDataId, Long madeDataId){
         Made madePost = madeRepository.findById(madeDataId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MADE));
 
