@@ -36,7 +36,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-gson:0.12.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
 
-    implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.14.0'
 
     implementation 'org.apache.pdfbox:pdfbox:2.0.35'
 }
