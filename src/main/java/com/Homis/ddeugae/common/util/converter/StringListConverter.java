@@ -1,5 +1,7 @@
 package com.Homis.ddeugae.common.util.converter;
 
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.CustomException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -21,7 +23,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         try{
             return mapper.writeValueAsString(attribute);
         } catch (JsonProcessingException jpe){
-            // custom
+            throw new CustomException(ErrorCode.FAILED_CONVERT_TO_DB, jpe);
         }
     }
 
@@ -32,7 +34,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         try {
             return mapper.readValue(dbData, typeReference);
         } catch (JsonProcessingException jpe){
-            // custom
+            throw new CustomException(ErrorCode.FAILED_CONVERT_TO_ENTITY, jpe);
         }
     }
 }
