@@ -1,8 +1,8 @@
 package com.Homis.ddeugae.domain.Sale.controller;
 
 import com.Homis.ddeugae.common.dto.ApiResponse;
-import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
+import com.Homis.ddeugae.domain.Sale.service.SaleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,7 @@ import java.util.List;
 @RequestMapping("/api/sale")
 @RequiredArgsConstructor
 public class SaleController {
-    private final BlobStorageManager blobStorageManager;
-    
+    private final SaleService saleService;
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse<?>> salePostUpload(
             HttpServletRequest request,
@@ -27,10 +26,7 @@ public class SaleController {
             @RequestBody @Valid SaleUploadReq uploadReqBody ){
         Long userDataId = (Long) request.getAttribute("userDataId");
 
-        List<String> saleImgUrls = blobStorageManager.uploadFilesFromStream(saleImgs);
-        String salePdfUrl = blobStorageManager.uploadFileFromStream(salePdf);
-
-        // 파일 업로드 url + 요청 body db에 저장
+        saleService.uploadSalePost(userDataId, saleImgs, salePdf, uploadReqBody);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "도안 상품 등록 성공!"));
