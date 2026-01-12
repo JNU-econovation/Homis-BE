@@ -101,7 +101,7 @@ public class BlobStorageManager {
      * @param files : 업로드할 파일 배열
      * @return : 업로드된 Blob URL -> DB에 저장될 예정
      */
-    public List<String> uploadFilesFromStream(MultipartFile[] files){
+    public List<String> uploadFilesFromStream(List<MultipartFile> files){
         try{
             List<String> resUrls = new ArrayList<>();
             for (MultipartFile file : files){

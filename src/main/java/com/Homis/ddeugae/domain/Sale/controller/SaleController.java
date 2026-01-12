@@ -11,17 +11,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/sale")
 @RequiredArgsConstructor
 public class SaleController {
     private final SaleService saleService;
+
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse<?>> salePostUpload(
             HttpServletRequest request,
-            @RequestParam(name = "saleImgFiles") MultipartFile[] saleImgs,
-            @RequestParam(name = "salePdfFile") MultipartFile salePdf,
-            @RequestBody @Valid SaleUploadReq uploadReqBody ){
+            @RequestPart("saleImgFiles") List<MultipartFile> saleImgs,
+            @RequestPart("salePdfFile") MultipartFile salePdf,
+            @RequestPart("uploadReq") @Valid SaleUploadReq uploadReqBody ){
         Long userDataId = (Long) request.getAttribute("userDataId");
 
         saleService.uploadSalePost(userDataId, saleImgs, salePdf, uploadReqBody);

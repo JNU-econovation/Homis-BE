@@ -20,7 +20,7 @@ public class SaleService {
     final SaleRepository saleRepository;
 
     public void uploadSalePost(
-            Long userDataId, MultipartFile[] imgs, MultipartFile pdf, SaleUploadReq uploadReq){
+            Long userDataId, List<MultipartFile> imgs, MultipartFile pdf, SaleUploadReq uploadReq){
 
         // 이미 interceptor에서 유뮤 확인 완
         final User userDoc = userRepository.findById(userDataId).get();
