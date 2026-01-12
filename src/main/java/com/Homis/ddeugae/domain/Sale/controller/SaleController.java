@@ -26,7 +26,7 @@ public class SaleController {
             HttpServletRequest request,
             @RequestPart("saleImgFiles") List<MultipartFile> saleImgs,
             @RequestPart("salePdfFile") MultipartFile salePdf,
-            @RequestPart("uploadReq") @Valid SaleUploadReq uploadReqBody ){
+            @RequestPart("saleUploadReq") @Valid SaleUploadReq uploadReqBody ){
         Long userDataId = (Long) request.getAttribute("userDataId");
 
         saleService.uploadSalePost(userDataId, saleImgs, salePdf, uploadReqBody);
