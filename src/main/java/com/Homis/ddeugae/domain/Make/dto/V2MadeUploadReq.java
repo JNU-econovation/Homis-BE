@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @NoArgsConstructor @AllArgsConstructor
 public class V2MadeUploadReq {
-    @Length(max=10, message = "도안명은 최대 10자까지만 가능합니다.")
+    @Length(max=16, message = "도안명은 최대 16자까지만 가능합니다.")
     private String madeName;
 
     @NotNull(message = "도안 규격 값이 없습니다.")
