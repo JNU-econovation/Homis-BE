@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,8 @@ import java.util.List;
 public class SaleController {
     private final SaleService saleService;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> salePostUpload(
             HttpServletRequest request,
             @RequestPart("saleImgFiles") List<MultipartFile> saleImgs,
