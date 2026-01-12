@@ -1,11 +1,13 @@
 package com.Homis.ddeugae.domain.Sale.entity;
 
+import com.Homis.ddeugae.common.util.converter.StringListConverter;
 import com.Homis.ddeugae.domain.User.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -22,7 +24,8 @@ public class Sale {
     private String saleName;
 
     @Column(nullable = false)
-    private String saleImgUrls;
+    @Convert(converter = StringListConverter.class)
+    private List<String> saleImgUrls;
 
     @Column(nullable = false)
     private String salePdfUrl;
