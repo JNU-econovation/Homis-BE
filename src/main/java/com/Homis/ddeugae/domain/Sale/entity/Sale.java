@@ -46,6 +46,9 @@ public class Sale {
     private String saleGauge;
 
     @Column(nullable = false)
+    private String usedNeedle;
+
+    @Column(nullable = false)
     private String yarnUsage;
 
     @CreationTimestamp
