@@ -105,7 +105,9 @@ public class BlobStorageManager {
         try{
             List<String> resUrls = new ArrayList<>();
             for (MultipartFile file : files){
-                resUrls.add(uploadFileFromStream(file)); // 업로드된 Blob URL -> DB 저장, 이걸로 읽기 및 다운로드 가능!
+                if (!file.isEmpty()) {
+                    resUrls.add(uploadFileFromStream(file)); // 업로드된 Blob URL -> DB 저장, 이걸로 읽기 및 다운로드 가능!
+                }
             }
 
             return resUrls;

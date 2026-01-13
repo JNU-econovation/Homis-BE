@@ -46,8 +46,13 @@ public class SaleService {
                 .user(userDoc);
 
         // 여분 이미지는 없을 수 있음
-        if (imgs != null && !imgs.isEmpty()) {
-            if (imgs.size() > 3){ // 최대 3개
+        List<MultipartFile> validImgs = imgs == null ? List.of()
+                : imgs.stream()
+                .filter(file -> file != null && !file.isEmpty())
+                .toList();
+
+        if (!validImgs.isEmpty()) { // 빈 파일 객체가 왔을 경우도 거르기
+            if (validImgs.size() > 3){ // 최대 3개
                 throw new CustomException(ErrorCode.TOO_MANY_IMGS);
             }
 
