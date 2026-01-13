@@ -24,8 +24,10 @@ public class Sale {
     private String saleName;
 
     @Column(nullable = false)
+    private String saleThumbnailImgUrl;
+
     @Convert(converter = StringListConverter.class)
-    private List<String> saleImgUrls;
+    private List<String> saleExtraImgUrls;
 
     @Column(nullable = false)
     private String salePdfUrl;
@@ -60,6 +62,9 @@ public class Sale {
 
     @Column(nullable = false)
     private String salerNickname;
+
+    @Column(nullable = false)
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "saler_data_id", referencedColumnName = "user_data_id", nullable = false)

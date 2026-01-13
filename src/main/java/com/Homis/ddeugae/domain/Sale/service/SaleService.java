@@ -39,7 +39,7 @@ public class SaleService {
                 .saleSize(uploadReq.getSaleSize())
                 .saleGauge(uploadReq.getSaleGauge())
                 .yarnUsage(uploadReq.getYarnUsage())
-                .purchasedCount(0)
+                .purchasedCount(0).deleted(false)
                 .salerNickname(userDoc.getUserNickname())
                 .user(userDoc);
 
