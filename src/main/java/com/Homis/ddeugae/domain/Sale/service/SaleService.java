@@ -20,17 +20,17 @@ public class SaleService {
     final SaleRepository saleRepository;
 
     public void uploadSalePost(
-            Long userDataId, List<MultipartFile> imgs, MultipartFile pdf, SaleUploadReq uploadReq){
+            Long userDataId, MultipartFile thumbnail, List<MultipartFile> imgs, MultipartFile pdf, SaleUploadReq uploadReq){
 
         // 이미 interceptor에서 유뮤 확인 완
         final User userDoc = userRepository.findById(userDataId).get();
 
-        List<String> imgUrls = blobStorageManager.uploadFilesFromStream(imgs);
+        String thumbnailUrl = blobStorageManager.uploadFileFromStream(thumbnail);
         String pdfUrl = blobStorageManager.uploadFileFromStream(pdf);
 
-        Sale salePost = Sale.builder()
+        Sale.SaleBuilder builder = Sale.builder()
                 .saleName(uploadReq.getSaleName())
-                .saleImgUrls(imgUrls)
+                .saleThumbnailImgUrl(thumbnailUrl)
                 .salePdfUrl(pdfUrl)
                 .saleScript(uploadReq.getSaleScript())
                 .salePrice(uploadReq.getSalePrice())
@@ -41,8 +41,15 @@ public class SaleService {
                 .yarnUsage(uploadReq.getYarnUsage())
                 .purchasedCount(0)
                 .salerNickname(userDoc.getUserNickname())
-                .user(userDoc)
-                .build();
+                .user(userDoc);
+
+        // 여분 이미지는 없을 수 있음
+        if (!imgs.isEmpty()) {
+            List<String> imgUrls = blobStorageManager.uploadFilesFromStream(imgs);
+            builder.saleExtraImgUrls(imgUrls);
+        }
+
+        Sale salePost = builder.build();
 
         saleRepository.save(salePost);
     }
