@@ -24,12 +24,13 @@ public class SaleController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> salePostUpload(
             HttpServletRequest request,
-            @RequestPart("saleImgFiles") List<MultipartFile> saleImgs,
+            @RequestPart("saleThumbnailImgFile") MultipartFile saleThumbnail,
+            @RequestPart("saleExtraImgFiles") List<MultipartFile> saleImgs,
             @RequestPart("salePdfFile") MultipartFile salePdf,
             @RequestPart("saleUploadReq") @Valid SaleUploadReq uploadReqBody ){
         Long userDataId = (Long) request.getAttribute("userDataId");
 
-        saleService.uploadSalePost(userDataId, saleImgs, salePdf, uploadReqBody);
+        saleService.uploadSalePost(userDataId, saleThumbnail, saleImgs, salePdf, uploadReqBody);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "도안 상품 등록 성공!"));
