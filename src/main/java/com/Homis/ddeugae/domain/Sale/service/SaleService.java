@@ -46,7 +46,7 @@ public class SaleService {
                 .user(userDoc);
 
         // 여분 이미지는 없을 수 있음
-        if (!imgs.isEmpty()) {
+        if (imgs != null && !imgs.isEmpty()) {
             if (imgs.size() > 3){ // 최대 3개
                 throw new CustomException(ErrorCode.TOO_MANY_IMGS);
             }

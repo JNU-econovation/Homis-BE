@@ -25,7 +25,7 @@ public class SaleController {
     public ResponseEntity<ApiResponse<?>> salePostUpload(
             HttpServletRequest request,
             @RequestPart("saleThumbnailImgFile") MultipartFile saleThumbnail,
-            @RequestPart("saleExtraImgFiles") List<MultipartFile> saleImgs,
+            @RequestPart(value = "saleExtraImgFiles", required = false) List<MultipartFile> saleImgs,
             @RequestPart("salePdfFile") MultipartFile salePdf,
             @RequestPart("saleUploadReq") @Valid SaleUploadReq uploadReqBody ){
         Long userDataId = (Long) request.getAttribute("userDataId");
