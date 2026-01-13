@@ -1,5 +1,7 @@
 package com.Homis.ddeugae.domain.Sale.service;
 
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
 import com.Homis.ddeugae.domain.Sale.entity.Sale;
@@ -45,6 +47,10 @@ public class SaleService {
 
         // 여분 이미지는 없을 수 있음
         if (!imgs.isEmpty()) {
+            if (imgs.size() > 3){ // 최대 3개
+                throw new CustomException(ErrorCode.TOO_MANY_IMGS);
+            }
+
             List<String> imgUrls = blobStorageManager.uploadFilesFromStream(imgs);
             builder.saleExtraImgUrls(imgUrls);
         }

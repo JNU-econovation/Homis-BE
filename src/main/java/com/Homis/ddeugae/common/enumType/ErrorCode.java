@@ -12,6 +12,7 @@ public enum ErrorCode {
     NOT_USER(HttpStatus.BAD_REQUEST, "002_NOT_USER", "존재하지 않는 ID의 사용자입니다."),
     FAILED_CONVERT_TO_DB(HttpStatus.BAD_REQUEST, "003_FAILED_CONVERT_TO_DB", "DB에 저장 중 convert 오류 (JSON 데이터 처리 오류)"),
     FAILED_CONVERT_TO_ENTITY(HttpStatus.BAD_REQUEST, "004_FAILED_CONVERT_TO_ENTITY", "DB에서 조회 중 convert 오류 (JSON 데이터 처리 오류)"),
+    TOO_MANY_IMGS(HttpStatus.BAD_REQUEST, "005_TOO_MANY_IMGS","판매 등록 시 사용 가능 여분 이미지는 최대 3개입니다."),
 
     // ---401
     UNKNOWN_AUTH_ERROR(HttpStatus.UNAUTHORIZED, "100_UNKNOWN_AUTH_ERROR", "알 수 없는 사용자 인증 오류"),
