@@ -28,11 +28,15 @@ public enum ErrorCode {
     // ---404
     NOT_FOUND_MADE(HttpStatus.NOT_FOUND, "400_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
     BLOB_NOT_FOUND(HttpStatus.NOT_FOUND, "401_BLOB_NOT_FOUND", "존재하지 않는 blob 삭제를 시도했음"),
+    NOT_FOUND_SALE(HttpStatus.NOT_FOUND, "402_NOT_FOUND_SALE", "삭제됐거나 존재하지 않는 판매 도안 게시글에 대한 접근"),
+    NOT_FOUND_PURCHASED(HttpStatus.NOT_FOUND, "403_NOT_FOUND_PURCHASED", "존재하지 않는 구매 이력 삭제 시도함"),
 
     // ---409
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "901_DUPLICATED_USER_NAME", "이미 등록된 아이디"),
     DUPLICATED_USER_NICKNAME(HttpStatus.CONFLICT,"902_DUPLICATED_USER_NICKNAME", "이미 등록된 닉네임"),
     WRONG_PWD(HttpStatus.CONFLICT, "903_WRONG_PWD", "비밀번호가 틀렸습니다."),
+    OWN_SALE_POST(HttpStatus.CONFLICT, "904_OWN_SALE_POST", "본인이 등록한 도안은 구매할 수 없습니다."),
+    ALREADY_PURCHASE_POST(HttpStatus.CONFLICT, "905_ALREADY_PURCHASE_POST","이미 구매한 도안은 재구매할 필요가 없습니다."),
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),
