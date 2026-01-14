@@ -3,6 +3,7 @@ package com.Homis.ddeugae.domain.Purchase.service;
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
+import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
 import com.Homis.ddeugae.domain.Sale.entity.Sale;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
@@ -11,6 +12,8 @@ import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +52,9 @@ public class PurchaseService {
         // 구매된 횟수 올리기
         salePostDoc.setPurchasedCount(salePostDoc.getPurchasedCount()+1);
         saleRepository.save(salePostDoc);
+    }
+
+    public List<PurchasePreviewMapping> getPurchasedPreview(Long userDataId){
+        return purchaseRepository.findAllByPurchaserDataId(userDataId);
     }
 }
