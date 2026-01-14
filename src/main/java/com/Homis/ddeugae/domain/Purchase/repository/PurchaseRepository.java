@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.domain.Purchase.service;
+package com.Homis.ddeugae.domain.Purchase.repository;
 
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
