@@ -35,6 +35,7 @@ public enum ErrorCode {
     DUPLICATED_USER_NICKNAME(HttpStatus.CONFLICT,"902_DUPLICATED_USER_NICKNAME", "이미 등록된 닉네임"),
     WRONG_PWD(HttpStatus.CONFLICT, "903_WRONG_PWD", "비밀번호가 틀렸습니다."),
     OWN_SALE_POST(HttpStatus.CONFLICT, "904_OWN_SALE_POST", "본인이 등록한 도안은 구매할 수 없습니다."),
+    ALREADY_PURCHASE_POST(HttpStatus.CONFLICT, "905_ALREADY_PURCHASE_POST","이미 구매한 도안은 재구매할 필요가 없습니다."),
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),

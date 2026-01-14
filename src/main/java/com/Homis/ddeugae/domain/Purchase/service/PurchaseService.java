@@ -33,6 +33,9 @@ public class PurchaseService {
         if (salePostDoc.isDeleted()){ // 삭제된 도안
             throw new CustomException(ErrorCode.NOT_FOUND_SALE);
         }
+        if (purchaseRepository.existsBySalePostIdAndPurchaserDataId(salePostId, userDataId)){
+            throw new CustomException(ErrorCode.ALREADY_PURCHASE_POST);
+        }
 
         Purchase purchase = Purchase.builder()
                 .saleName(salePostDoc.getSaleName()).salerNickname(salePostDoc.getSalerNickname())
