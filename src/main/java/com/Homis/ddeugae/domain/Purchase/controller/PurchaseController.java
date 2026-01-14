@@ -42,4 +42,15 @@ public class PurchaseController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "도안 구매 미리보기 리스트 반환 성공", previewData));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<?>> purchasePostDelete(
+            HttpServletRequest request, @RequestParam(name = "purchasedPostId") Long postId){
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        purchaseService.deletePurchasePost(userDataId, postId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "구매 게시글 삭제 성공"));
+    }
 }
