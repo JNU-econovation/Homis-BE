@@ -1,18 +1,20 @@
 package com.Homis.ddeugae.domain.Main.dto;
 
-import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
-import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
+import com.Homis.ddeugae.common.enumType.MainPostType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Builder
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 public class MainLoadResp {
-    private List<MadePreviewMapping> madePreview;
-    private List<PurchasePreviewMapping> purchasePreview;
+    private MainPostType type; // MADE(제작) 또는 PURCHASE(구매)
+    private Long id;
+    private String title;
+    private String thumbnailUrl;
+    private LocalDateTime createdAt;
+    private Long original_post_id;
+    private String original_uploader_nickname;
 }
