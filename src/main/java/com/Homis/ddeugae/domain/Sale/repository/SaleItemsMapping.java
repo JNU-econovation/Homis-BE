@@ -7,5 +7,6 @@ public interface SaleItemsMapping {
     String getSaleThumbnailImgUrl();
     String getSaleName();
     String getSalerNickname();
+    Integer getSalePrice();
     LocalDateTime getCreatedAt();
 }
