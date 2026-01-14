@@ -1,6 +1,7 @@
 package com.Homis.ddeugae.domain.Sale.controller;
 
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Sale.dto.SaleDetailResp;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
 import com.Homis.ddeugae.domain.Sale.repository.SaleItemsMapping;
 import com.Homis.ddeugae.domain.Sale.service.SaleService;
@@ -43,5 +44,16 @@ public class SaleController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "쇼핑 탭 로드 완료", responseData));
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<ApiResponse<?>> showSalePostDetail(
+            HttpServletRequest request, @RequestParam(name = "salePostId") Long postId){
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        SaleDetailResp responseData = saleService.loadSaleDetail(userDataId, postId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "상품 상세 내용 로드 완료", responseData));
     }
 }
