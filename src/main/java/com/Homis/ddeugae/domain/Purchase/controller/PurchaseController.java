@@ -1,8 +1,10 @@
 package com.Homis.ddeugae.domain.Purchase.controller;
 
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Purchase.dto.PurchaseSaveReq;
 import com.Homis.ddeugae.domain.Purchase.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,11 @@ public class PurchaseController {
     // 구매 저장
     @PostMapping("/save")
     public ResponseEntity<ApiResponse<?>> purchasePostAndSave(
-            HttpServletRequest request, @RequestBody Long salePostId){
+            HttpServletRequest request, @RequestBody @Valid PurchaseSaveReq saveReq){
+
         Long userDataId = (Long) request.getAttribute("userDataId");
 
-        purchaseService.purchaseSalePost(userDataId, salePostId);
+        purchaseService.purchaseSalePost(userDataId, saveReq.getSalePostId());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "도안 구매 성공!"));
