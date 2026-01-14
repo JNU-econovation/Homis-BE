@@ -1,10 +1,42 @@
 package com.Homis.ddeugae.domain.Purchase.service;
 
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
+import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
+import com.Homis.ddeugae.domain.Sale.entity.Sale;
+import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
+import com.Homis.ddeugae.domain.User.entity.User;
+import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseService {
-    
+    private final UserRepository userRepository;
+    private final SaleRepository saleRepository;
+    private final PurchaseRepository purchaseRepository;
+
+    public void purchaseSalePost(Long userDataId, Long salePostId){
+        final User userDoc = userRepository.findById(userDataId).get(); // 이미 확인함 (interceptor에서)
+
+        final Sale salePostDoc = saleRepository.findById(salePostId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SALE)); // 없는 등록 도안
+
+        //---구매 불가능의 경우
+        if (salePostDoc.getUserDataId().equals(userDataId)) { // 본인 등록 도안
+            throw new CustomException(ErrorCode.OWN_SALE_POST);
+        }        
+        if (salePostDoc.isDeleted()){ // 삭제된 도안
+            throw new CustomException(ErrorCode.NOT_FOUND_SALE);
+        }
+
+        Purchase purchase = Purchase.builder()
+                .saleName(salePostDoc.getSaleName()).salerNickname(salePostDoc.getSalerNickname())
+                .user(userDoc).salePost(salePostDoc)
+                .build();
+
+        purchaseRepository.save(purchase);
+    }
 }
