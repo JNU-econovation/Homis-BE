@@ -38,7 +38,9 @@ public class PurchaseService {
         }
 
         Purchase purchase = Purchase.builder()
-                .saleName(salePostDoc.getSaleName()).salerNickname(salePostDoc.getSalerNickname())
+                .saleName(salePostDoc.getSaleName())
+                .salerNickname(salePostDoc.getSalerNickname())
+                .saleThumbnailImgUrl(salePostDoc.getSaleThumbnailImgUrl())
                 .user(userDoc).salePost(salePostDoc)
                 .build();
 

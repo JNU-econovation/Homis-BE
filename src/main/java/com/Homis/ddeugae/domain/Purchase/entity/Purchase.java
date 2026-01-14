@@ -37,6 +37,9 @@ public class Purchase {
     @Column(nullable = false)
     private String salerNickname;
 
+    @Column(nullable = false)
+    private String saleThumbnailImgUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_post_id", referencedColumnName = "sale_post_id", nullable = false)
     private Sale salePost;
