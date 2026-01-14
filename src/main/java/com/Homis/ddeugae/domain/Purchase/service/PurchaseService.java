@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Purchase.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.domain.Make.entity.Made;
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
@@ -56,5 +57,25 @@ public class PurchaseService {
 
     public List<PurchasePreviewMapping> getPurchasedPreview(Long userDataId){
         return purchaseRepository.findAllByPurchaserDataId(userDataId);
+    }
+
+    private Purchase checkExistenceAndOwner(Long userDataId, Long purchasedPostId){
+        Purchase purchasePost = purchaseRepository.findById(purchasedPostId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PURCHASED));
+
+        // 도안 구매자 맞는지 확인
+        if (!userDataId.equals(purchasePost.getPurchaserDataId())){
+            throw new CustomException(ErrorCode.NOT_OWNER);
+        }
+
+        return purchasePost;
+    }
+
+    public void deletePurchasePost(Long userDataId, Long purchasedPostId){
+        Purchase purchase = checkExistenceAndOwner(userDataId, purchasedPostId);
+
+        purchaseRepository.delete(purchase); // 삭제
+
+        // 구매 횟수는 누적 횟수로 하기 위해 sale 레코드 내용을 수정하지 않음
     }
 }
