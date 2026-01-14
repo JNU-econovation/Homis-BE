@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Sale.controller;
 
 import com.Homis.ddeugae.common.dto.ApiResponse;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
+import com.Homis.ddeugae.domain.Sale.repository.SaleItemsMapping;
 import com.Homis.ddeugae.domain.Sale.service.SaleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -34,5 +35,13 @@ public class SaleController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("201", "도안 상품 등록 성공!"));
+    }
+
+    @GetMapping("/shopping")
+    public ResponseEntity<ApiResponse<?>> loadShoppingTap(HttpServletRequest request){
+        List<SaleItemsMapping> responseData = saleService.loadShoppingItems();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "쇼핑 탭 로드 완료", responseData));
     }
 }

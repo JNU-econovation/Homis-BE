@@ -5,6 +5,7 @@ import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
 import com.Homis.ddeugae.domain.Sale.entity.Sale;
+import com.Homis.ddeugae.domain.Sale.repository.SaleItemsMapping;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
@@ -63,5 +64,9 @@ public class SaleService {
         Sale salePost = builder.build();
 
         saleRepository.save(salePost);
+    }
+
+    public List<SaleItemsMapping> loadShoppingItems(){
+        return saleRepository.findAllSaleItemsPreview();
     }
 }
