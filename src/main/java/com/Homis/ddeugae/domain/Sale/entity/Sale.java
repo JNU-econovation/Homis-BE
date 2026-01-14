@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Sale {

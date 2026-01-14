@@ -8,6 +8,7 @@ import com.Homis.ddeugae.domain.Sale.entity.Sale;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class PurchaseService {
     private final SaleRepository saleRepository;
     private final PurchaseRepository purchaseRepository;
 
+    @Transactional
     public void purchaseSalePost(Long userDataId, Long salePostId){
         final User userDoc = userRepository.findById(userDataId).get(); // 이미 확인함 (interceptor에서)
 
@@ -27,7 +29,7 @@ public class PurchaseService {
         //---구매 불가능의 경우
         if (salePostDoc.getUserDataId().equals(userDataId)) { // 본인 등록 도안
             throw new CustomException(ErrorCode.OWN_SALE_POST);
-        }        
+        }
         if (salePostDoc.isDeleted()){ // 삭제된 도안
             throw new CustomException(ErrorCode.NOT_FOUND_SALE);
         }
@@ -38,5 +40,9 @@ public class PurchaseService {
                 .build();
 
         purchaseRepository.save(purchase);
+
+        // 구매된 횟수 올리기
+        salePostDoc.setPurchasedCount(salePostDoc.getPurchasedCount()+1);
+        saleRepository.save(salePostDoc);
     }
 }
