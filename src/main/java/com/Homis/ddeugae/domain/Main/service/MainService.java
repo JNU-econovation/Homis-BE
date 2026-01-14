@@ -42,8 +42,8 @@ public class MainService {
             ));
         }
 
-        // 최신순 정렬
-        items.sort(Comparator.comparing(MainLoadResp::getCreatedAt).reversed());
+        // 최신 게시글이 맨 마지막에 옴
+        items.sort(Comparator.comparing(MainLoadResp::getCreatedAt));
 
         return items;
     }
