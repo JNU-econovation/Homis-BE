@@ -1,4 +1,4 @@
-package com.Homis.ddeugae.domain.Main;
+package com.Homis.ddeugae.domain.Main.dto;
 
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;

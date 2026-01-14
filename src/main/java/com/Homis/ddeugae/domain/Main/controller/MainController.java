@@ -1,6 +1,7 @@
-package com.Homis.ddeugae.domain.Main;
+package com.Homis.ddeugae.domain.Main.controller;
 
 import com.Homis.ddeugae.common.dto.ApiResponse;
+import com.Homis.ddeugae.domain.Main.dto.MainLoadResp;
 import com.Homis.ddeugae.domain.Make.repository.MadePreviewMapping;
 import com.Homis.ddeugae.domain.Make.service.MakeService;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
