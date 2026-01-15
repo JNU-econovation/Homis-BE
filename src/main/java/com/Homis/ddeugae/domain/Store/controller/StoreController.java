@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/store")
@@ -36,5 +33,16 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "스토어 접속 및 미리보기 리스트 반환 성공",
                         storeService.loadStorePreview(userDataId, nickname)));
+    }
+
+    @DeleteMapping("/my-delete")
+    public ResponseEntity<ApiResponse<?>> deleteMySale(
+            HttpServletRequest request, @RequestParam(name = "salePostId") Long postId){
+        Long userDataId = (Long) request.getAttribute("userDataId");
+
+        storeService.deleteSalePost(userDataId, postId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "판매 게시글 삭제 성공"));
     }
 }
