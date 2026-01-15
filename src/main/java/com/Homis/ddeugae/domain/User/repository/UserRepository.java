@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT user_nickname, user_profile_img_url FROM user WHERE(user_data_id=:user_data_id)"
             , nativeQuery = true)
     UserProfileMapping getUserProfileById(@Param(value = "user_data_id") Long userDataId);
+
+    @Query(value = "SELECT user_nickname, user_profile_img_url FROM user WHERE(user_nickname=:user_nickname)"
+            , nativeQuery = true)
+    UserProfileMapping getUserProfileByNickname(@Param(value = "user_nickname") String salerNickname);
 }

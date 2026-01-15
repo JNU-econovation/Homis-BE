@@ -1,5 +1,7 @@
 package com.Homis.ddeugae.domain.Store.service;
 
+import com.Homis.ddeugae.common.enumType.ErrorCode;
+import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.domain.Sale.repository.SaleItemsMapping;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
 import com.Homis.ddeugae.domain.Store.dto.StoreLoadResp;
@@ -29,7 +31,11 @@ public class StoreService {
                     userRepository.getUserProfileById(userDataId), true);
         }
 
+        if(userRepository.findByUserNickname(salerNickname).isEmpty()){
+            throw new CustomException(ErrorCode.NOT_FOUND_SALER); // 존재하지 않는 사용자의 닉네임
+        }
+
         return new StoreLoadResp(saleRepository.findUserItemsByNickname(salerNickname),
-                userRepository.getUserProfileById(userDataId), false);
+                userRepository.getUserProfileByNickname(salerNickname), false);
     }
 }
