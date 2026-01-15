@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Purchase.repository;
 
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,4 +15,12 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             " saler_nickname, purchased_at, sale_deleted FROM purchase WHERE(purchaser_data_id=:purchaser_data_id)"
             , nativeQuery = true)
     List<PurchasePreviewMapping> findAllByPurchaserDataId(@Param("purchaser_data_id") Long purchaserDataId);
+
+    @Modifying
+    @Query("""
+    update Purchase p
+    set p.sale_deleted = true
+    where p.salePostId =:salePostId
+    """)
+    void markSaleDeleted(@Param("salePostId") Long saleId);
 }
