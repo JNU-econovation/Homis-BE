@@ -2,6 +2,7 @@ package com.Homis.ddeugae.domain.Purchase.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
+import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Purchase.dto.PurchaseDownloadInfoDto;
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
@@ -25,12 +26,13 @@ public class PurchaseService {
     private final UserRepository userRepository;
     private final SaleRepository saleRepository;
     private final PurchaseRepository purchaseRepository;
+    private final BlobStorageManager blobStorageManager;
 
     @Transactional
     public void purchaseSalePost(Long userDataId, Long salePostId){
         final User userDoc = userRepository.findById(userDataId).get(); // 이미 확인함 (interceptor에서)
 
-        final Sale salePostDoc = saleRepository.findById(salePostId)
+        Sale salePostDoc = saleRepository.findById(salePostId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SALE)); // 없는 등록 도안
 
         //---구매 불가능의 경우
@@ -75,12 +77,37 @@ public class PurchaseService {
         return purchasePost;
     }
 
+    @Transactional
     public void deletePurchasePost(Long userDataId, Long purchasedPostId){
         Purchase purchase = checkExistenceAndOwner(userDataId, purchasedPostId);
 
-        purchaseRepository.delete(purchase); // 삭제
+        Sale salePostDoc = saleRepository.findById(purchase.getSalePostId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SALE)); // 없는 등록 도안
 
-        // 구매 횟수는 누적 횟수로 하기 위해 sale 레코드 내용을 수정하지 않음
+        int purchased_cnt = salePostDoc.getPurchasedCount();
+
+        if (purchased_cnt == 1){ // 방금 삭제한 사람이 마지막 소유자 -> blob 파일들 삭제, sale 레코드 삭제
+            purchaseRepository.delete(purchase); // 구매 삭제
+            saleRepository.delete(salePostDoc);  // 판매 게시글 레코드 삭제
+
+            if (salePostDoc.getSalePdfUrl()==null || salePostDoc.getSaleThumbnailImgUrl() == null){
+                throw new CustomException(ErrorCode.WRONG_SALE_RECORD);
+            }
+            blobStorageManager.fileDelete(salePostDoc.getSalePdfUrl()); // pdf 파일 삭제
+            blobStorageManager.fileDelete(salePostDoc.getSaleThumbnailImgUrl()); // 대표 이미지 파일 삭제
+
+            // 나머지 이미지 파일들도 있다면 삭제
+            if (salePostDoc.getSaleExtraImgUrls() != null && !salePostDoc.getSaleExtraImgUrls().isEmpty()){
+                for (String imgUrls : salePostDoc.getSaleExtraImgUrls()){
+                    blobStorageManager.fileDelete(imgUrls);
+                }
+            }
+
+        } else{
+            // 구매자 수 내리기
+            salePostDoc.setPurchasedCount(purchased_cnt-1);
+            saleRepository.save(salePostDoc);
+        }
     }
     
     // 다운로드 정보 dto 생성
