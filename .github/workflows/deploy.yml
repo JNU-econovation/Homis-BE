@@ -41,7 +41,7 @@ jobs:
 
       # 빌드 및 테스트
       - name: Build with Gradle
-        run: ./gradlew clean build -x test  # 이전 내용 삭제, 테스트 스킵하여 빌드
+        run: ./gradlew clean bootJar -x test  # 이전 내용 삭제, 테스트 스킵하여 빌드
 
       # --- CD 실행
       - name: Azure WebApp
@@ -49,4 +49,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: build/libs/*-SNAPSHOT.jar  # jar 파일 지정 - 실행용
+          package: build/libs/ddeugae-0.0.1-SNAPSHOT.jar  # jar 파일 지정 - 실행용
