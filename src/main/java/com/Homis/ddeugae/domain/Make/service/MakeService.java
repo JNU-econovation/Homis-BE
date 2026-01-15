@@ -1,9 +1,9 @@
 package com.Homis.ddeugae.domain.Make.service;
 
+import com.Homis.ddeugae.common.dto.DeletedFiles;
 import com.Homis.ddeugae.common.enumType.FileType;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.enumType.ErrorCode;
-import com.Homis.ddeugae.common.util.BlobStorageManager;
 import com.Homis.ddeugae.domain.Make.dto.MadeDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeFileDownloadInfoDto;
 import com.Homis.ddeugae.domain.Make.dto.MadeUploadReq;
@@ -17,6 +17,7 @@ import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class MakeService {
     private final UserRepository userRepository;
     private final MadeRepository madeRepository;
     private final MadePdfService madePdfService;
-    private final BlobStorageManager blobStorageManager;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public void uploadMadeDesign(MadeUploadReq uploadReq, Long userDataId) {
         final User userDoc = userRepository.findById(userDataId).get();
@@ -144,12 +145,7 @@ public class MakeService {
 
         madeRepository.delete(madePost); // 삭제
 
-        try{
-            blobStorageManager.fileDelete(madePost.getMadeImgUrl());
-            blobStorageManager.fileDelete(madePost.getMadePdfUrl());
-        } catch (Exception e){
-            log.error("[도안 제작 삭제 실패] - Blob 삭제 실패", e);
-        }
+        applicationEventPublisher.publishEvent(DeletedFiles.fromMade(madePost));
     }
 
     public MadeFileDownloadInfoDto getDownloadInfo(Long userDataId, Long madeDataId, FileType fileType){
