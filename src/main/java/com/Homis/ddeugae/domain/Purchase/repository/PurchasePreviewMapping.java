@@ -9,4 +9,5 @@ public interface PurchasePreviewMapping {
     String getSaleName();
     String getSalerNickname();
     LocalDateTime getPurchasedAt();
+    boolean getSaleDeleted();
 }
