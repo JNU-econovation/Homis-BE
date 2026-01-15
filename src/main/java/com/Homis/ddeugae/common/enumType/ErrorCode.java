@@ -38,6 +38,7 @@ public enum ErrorCode {
     WRONG_PWD(HttpStatus.CONFLICT, "903_WRONG_PWD", "비밀번호가 틀렸습니다."),
     OWN_SALE_POST(HttpStatus.CONFLICT, "904_OWN_SALE_POST", "본인이 등록한 도안은 구매할 수 없습니다."),
     ALREADY_PURCHASE_POST(HttpStatus.CONFLICT, "905_ALREADY_PURCHASE_POST","이미 구매한 도안은 재구매할 필요가 없습니다."),
+    ALREADY_DELETED_SALE(HttpStatus.CONFLICT, "906_ALREADY_DELETED_SALE", "이미 삭제한 판매 게시글은 삭제 불필요"),
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),
@@ -58,7 +59,8 @@ public enum ErrorCode {
     PDFBOX_FAILED_CLOSE(HttpStatus.INTERNAL_SERVER_ERROR, "0016_PDFBOX_FAILED_CLOSE", "텍스트 전용 PDF 파일 작성 stream 닫기 실패"),
     BLOB_FAILED_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "0017_BLOB_FAILED_DELETE", "BLOB 삭제 중 오류 발생"),
     UNKNOWN_FAILED_DELETE_FILE(HttpStatus.INTERNAL_SERVER_ERROR, "0018_UNKNOWN_FAILED_DELETE_FILE", "알 수 없는 FILE 삭제 오류 발생"),
-    BLOB_FAILED_LOAD_STREAM(HttpStatus.INTERNAL_SERVER_ERROR, "0019_BLOB_FAILED_LOAD_STREAM", "BLOB에 대해 STREAM 로드 실패");
+    BLOB_FAILED_LOAD_STREAM(HttpStatus.INTERNAL_SERVER_ERROR, "0019_BLOB_FAILED_LOAD_STREAM", "BLOB에 대해 STREAM 로드 실패"),
+    WRONG_SALE_RECORD(HttpStatus.INTERNAL_SERVER_ERROR, "0020_WRONG_SALE_RECORD", "DB에 저장된 판매 기록이 잘못되어 삭제 중 오류");
 
     private final HttpStatus status;
     private final String code;

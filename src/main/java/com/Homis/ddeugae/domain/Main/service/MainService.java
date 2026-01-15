@@ -30,7 +30,7 @@ public class MainService {
             items.add(new MainLoadResp(
                     MainPostType.MADE,
                     made.getMadeDataId(), made.getMadeName(), made.getMadeImgUrl(), made.getCreatedAt(),
-                    null, null
+                    null, null, false
             ));
         }
 
@@ -38,7 +38,8 @@ public class MainService {
             items.add(new MainLoadResp(
                     MainPostType.PURCHASE,
                     purchase.getPurchasedPostId(), purchase.getSaleName(), purchase.getSaleThumbnailImgUrl(), purchase.getPurchasedAt(),
-                    purchase.getSalePostId(), purchase.getSalerNickname()
+                    purchase.getSalePostId(), purchase.getSalerNickname(),
+                    purchase.getSaleDeleted()
             ));
         }
 

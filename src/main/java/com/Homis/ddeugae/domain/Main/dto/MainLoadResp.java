@@ -17,4 +17,5 @@ public class MainLoadResp {
     private LocalDateTime createdAt;
     private Long original_post_id;
     private String original_uploader_nickname;
+    private boolean deleted;
 }

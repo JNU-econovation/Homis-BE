@@ -43,6 +43,9 @@ public class Purchase {
     @Column(nullable = false)
     private String salePdfUrl;
 
+    @Column(nullable = false)
+    private boolean sale_deleted;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_post_id", referencedColumnName = "sale_post_id", nullable = false)
     private Sale salePost;
