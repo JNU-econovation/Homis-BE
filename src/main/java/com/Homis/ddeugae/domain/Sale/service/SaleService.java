@@ -3,8 +3,13 @@ package com.Homis.ddeugae.domain.Sale.service;
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
 import com.Homis.ddeugae.common.util.BlobStorageManager;
+import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
+import com.Homis.ddeugae.domain.Sale.dto.SaleAndUserInfoDto;
+import com.Homis.ddeugae.domain.Sale.dto.SaleDetailResp;
 import com.Homis.ddeugae.domain.Sale.dto.SaleUploadReq;
 import com.Homis.ddeugae.domain.Sale.entity.Sale;
+import com.Homis.ddeugae.domain.Sale.repository.SaleDetailMapping;
+import com.Homis.ddeugae.domain.Sale.repository.SaleItemsMapping;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
 import com.Homis.ddeugae.domain.User.entity.User;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
@@ -20,6 +25,7 @@ public class SaleService {
     final BlobStorageManager blobStorageManager;
     final UserRepository userRepository;
     final SaleRepository saleRepository;
+    final PurchaseRepository purchaseRepository;
 
     public void uploadSalePost(
             Long userDataId, MultipartFile thumbnail, List<MultipartFile> imgs, MultipartFile pdf, SaleUploadReq uploadReq){
@@ -63,5 +69,25 @@ public class SaleService {
         Sale salePost = builder.build();
 
         saleRepository.save(salePost);
+    }
+
+    public List<SaleItemsMapping> loadShoppingItems(){
+        return saleRepository.findAllSaleItemsPreview();
+    }
+
+    public SaleDetailResp loadSaleDetail(Long userDataId, Long salePostId){
+        Sale salePost = saleRepository.findById(salePostId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SALE));
+
+        SaleDetailMapping detailData = saleRepository.findSaleDetail(salePostId);
+
+        SaleAndUserInfoDto saleAndUserInfo = SaleAndUserInfoDto.builder()
+                .uploader(userDataId.equals(salePost.getUserDataId()))
+                .owner(purchaseRepository.existsBySalePostIdAndPurchaserDataId(salePostId, userDataId))
+                .deleted(salePost.isDeleted())
+                .build();
+
+        return SaleDetailResp.builder()
+                .saleAndUserInfo(saleAndUserInfo).salePostDetailData(detailData).build();
     }
 }
