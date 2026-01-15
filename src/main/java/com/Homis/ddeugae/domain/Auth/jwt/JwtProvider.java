@@ -24,7 +24,7 @@ public class JwtProvider {
                 .claim("userDataId", userDataId)
                 .claim("userNickname", nickname)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 7200000)) // 3시간 유효 7200000
+                .expiration(new Date(System.currentTimeMillis() + 24000000)) // 10시간 유효
                 .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
 
