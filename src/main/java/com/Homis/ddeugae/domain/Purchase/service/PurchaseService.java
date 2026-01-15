@@ -86,7 +86,8 @@ public class PurchaseService {
 
         int purchased_cnt = salePostDoc.getPurchasedCount();
 
-        if (purchased_cnt == 1){ // 방금 삭제한 사람이 마지막 소유자 -> blob 파일들 삭제, sale 레코드 삭제
+        if (purchased_cnt == 1 && salePostDoc.isDeleted()){
+            // 방금 삭제한 사람이 마지막 소유자 & deleted == true -> blob 파일들 삭제, sale 레코드 삭제
             purchaseRepository.delete(purchase); // 구매 삭제
             saleRepository.delete(salePostDoc);  // 판매 게시글 레코드 삭제
 
