@@ -28,7 +28,7 @@ public enum ErrorCode {
     // ---404
     NOT_FOUND_MADE(HttpStatus.NOT_FOUND, "400_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
     BLOB_NOT_FOUND(HttpStatus.NOT_FOUND, "401_BLOB_NOT_FOUND", "존재하지 않는 blob 삭제를 시도했음"),
-    NOT_FOUND_SALE(HttpStatus.NOT_FOUND, "402_NOT_FOUND_SALE", "삭제됐거나 존재하지 않는 판매 도안 게시글에 대한 접근"),
+    NOT_FOUND_SALE(HttpStatus.NOT_FOUND, "402_NOT_FOUND_SALE", "존재하지 않는 판매 도안 게시글에 대한 접근"),
     NOT_FOUND_PURCHASED(HttpStatus.NOT_FOUND, "403_NOT_FOUND_PURCHASED", "존재하지 않는 구매 이력에 대한 접근"),
 
     // ---409
