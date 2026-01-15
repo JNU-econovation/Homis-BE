@@ -79,13 +79,20 @@ public class SaleService {
         Sale salePost = saleRepository.findById(salePostId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_SALE));
 
-        SaleDetailMapping detailData = saleRepository.findSaleDetail(salePostId);
+        final boolean deleted = salePost.isDeleted();
+        final boolean owner = purchaseRepository.existsBySalePostIdAndPurchaserDataId(salePostId, userDataId);
+
+        if (deleted && !owner){ // 삭제됐는데 구매자가 아니라면
+            throw new CustomException(ErrorCode.DELETED_SALE_NOT_OWNER);
+        }
 
         SaleAndUserInfoDto saleAndUserInfo = SaleAndUserInfoDto.builder()
                 .uploader(userDataId.equals(salePost.getUserDataId()))
-                .owner(purchaseRepository.existsBySalePostIdAndPurchaserDataId(salePostId, userDataId))
-                .deleted(salePost.isDeleted())
+                .owner(owner)
+                .deleted(deleted)
                 .build();
+
+        SaleDetailMapping detailData = saleRepository.findSaleDetail(salePostId);
 
         return SaleDetailResp.builder()
                 .saleAndUserInfo(saleAndUserInfo).salePostDetailData(detailData).build();
