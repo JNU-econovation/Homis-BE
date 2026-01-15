@@ -2,19 +2,17 @@ package com.Homis.ddeugae.domain.Store.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.common.util.BlobStorageManager;
-import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
 import com.Homis.ddeugae.domain.Sale.entity.Sale;
 import com.Homis.ddeugae.domain.Sale.repository.SaleRepository;
+import com.Homis.ddeugae.common.dto.DeletedFiles;
 import com.Homis.ddeugae.domain.Store.dto.StoreLoadResp;
 import com.Homis.ddeugae.domain.Store.dto.StoreMyPageResp;
 import com.Homis.ddeugae.domain.User.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -23,7 +21,7 @@ public class StoreService {
     private final SaleRepository saleRepository;
     private final UserRepository userRepository;
     private final PurchaseRepository purchaseRepository;
-    private final BlobStorageManager blobStorageManager;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public StoreMyPageResp loadMyPagePreview(Long userDataId){
         return new StoreMyPageResp(
@@ -65,19 +63,7 @@ public class StoreService {
         if (salePost.getPurchasedCount() == 0){ // 어차피 구매자가 없다면 기록까지 삭제해도 됨
             saleRepository.delete(salePost); // 판매 기록 삭제
 
-            if (salePost.getSalePdfUrl()==null || salePost.getSaleThumbnailImgUrl() == null){
-                throw new CustomException(ErrorCode.WRONG_SALE_RECORD);
-            }
-
-            blobStorageManager.fileDelete(salePost.getSalePdfUrl()); // pdf 파일 삭제
-            blobStorageManager.fileDelete(salePost.getSaleThumbnailImgUrl()); // 대표 이미지 파일 삭제
-
-            // 나머지 이미지 파일들도 있다면 삭제
-            if (salePost.getSaleExtraImgUrls() != null && !salePost.getSaleExtraImgUrls().isEmpty()){
-                for (String imgUrls : salePost.getSaleExtraImgUrls()){
-                    blobStorageManager.fileDelete(imgUrls);
-                }
-            }
+            applicationEventPublisher.publishEvent(DeletedFiles.fromSale(salePost));
 
         } else {
             salePost.setDeleted(true);
