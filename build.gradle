@@ -7,9 +7,6 @@ plugins {
 group = 'com.Homis'
 version = '0.0.1-SNAPSHOT'
 description = 'Demo project for Spring Boot'
-jar {
-    enabled = false
-}
 
 java {
 	toolchain {
