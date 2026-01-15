@@ -2,7 +2,7 @@ package com.Homis.ddeugae.domain.Purchase.service;
 
 import com.Homis.ddeugae.common.enumType.ErrorCode;
 import com.Homis.ddeugae.common.exception.CustomException;
-import com.Homis.ddeugae.domain.Make.entity.Made;
+import com.Homis.ddeugae.domain.Purchase.dto.PurchaseDownloadInfoDto;
 import com.Homis.ddeugae.domain.Purchase.entity.Purchase;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchasePreviewMapping;
 import com.Homis.ddeugae.domain.Purchase.repository.PurchaseRepository;
@@ -14,7 +14,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +48,7 @@ public class PurchaseService {
                 .saleName(salePostDoc.getSaleName())
                 .salerNickname(salePostDoc.getSalerNickname())
                 .saleThumbnailImgUrl(salePostDoc.getSaleThumbnailImgUrl())
+                .salePdfUrl(salePostDoc.getSalePdfUrl())
                 .user(userDoc).salePost(salePostDoc)
                 .build();
 
@@ -77,5 +81,17 @@ public class PurchaseService {
         purchaseRepository.delete(purchase); // 삭제
 
         // 구매 횟수는 누적 횟수로 하기 위해 sale 레코드 내용을 수정하지 않음
+    }
+    
+    // 다운로드 정보 dto 생성
+    public PurchaseDownloadInfoDto getDownloadInfo(Long userDataId, Long purchasedPostId){
+        Purchase purchasePost = checkExistenceAndOwner(userDataId, purchasedPostId);
+        
+        String encodedFileName =
+                URLEncoder.encode(purchasePost.getSaleName(), StandardCharsets.UTF_8).replace("+", "%20");
+        
+        String downloadFileName = "Knit_Doa-" + encodedFileName + "-" + UUID.randomUUID() + ".pdf";
+
+        return new PurchaseDownloadInfoDto(downloadFileName, purchasePost.getSalePdfUrl());
     }
 }
