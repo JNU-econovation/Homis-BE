@@ -90,4 +90,8 @@ public class SaleService {
         return SaleDetailResp.builder()
                 .saleAndUserInfo(saleAndUserInfo).salePostDetailData(detailData).build();
     }
+    
+    public List<SaleItemsMapping> searchItems(String keyword){
+        return saleRepository.searchItemsByTxt("%" + keyword + "%"); // 상품명, 제작자 닉네임 부분일치 item 미리보기 반환
+    }
 }

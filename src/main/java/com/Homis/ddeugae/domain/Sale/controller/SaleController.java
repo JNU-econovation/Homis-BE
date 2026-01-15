@@ -56,4 +56,15 @@ public class SaleController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "상품 상세 내용 로드 완료", responseData));
     }
+
+    // 검색
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<?>> searchInShopping(
+            HttpServletRequest request, @RequestParam(name = "keyword") String keyword){
+
+        List<SaleItemsMapping> responseData = saleService.searchItems(keyword);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "'"+keyword+"'"+"에 대해 검색 성공", responseData));
+    }
 }
