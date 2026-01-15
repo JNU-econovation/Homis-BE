@@ -34,4 +34,10 @@ WHERE s.salePostId = :sale_post_id
             FROM sale WHERE(deleted=false AND (sale_name LIKE :txt OR saler_nickname LIKE :txt))
             """, nativeQuery = true)
     List<SaleItemsMapping> searchItemsByTxt(@Param("txt") String txt); // txt는 앞뒤로 %가 붙은 채 전달돼야 함
+
+    @Query(value = """
+            SELECT sale_post_id, sale_thumbnail_img_url, sale_name, saler_nickname, sale_price, created_at
+            FROM sale WHERE(deleted=false AND saler_data_id=:user_data_id)
+            """, nativeQuery = true)
+    List<SaleItemsMapping> findUserItemsById(@Param("user_data_id") Long salerDataId);
 }
