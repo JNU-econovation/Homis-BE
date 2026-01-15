@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     // ---403
     NOT_OWNER(HttpStatus.FORBIDDEN, "300_NOT_OWNER", "게시글 작성자가 아닙니다."),
+    DELETED_SALE_NOT_OWNER(HttpStatus.FORBIDDEN, "301_DELETED_SALE_NOT_OWNER", "삭제된 판매 게시글에 대해 구매자만 접근 가능"),
 
     // ---404
     NOT_FOUND_MADE(HttpStatus.NOT_FOUND, "400_NOT_FOUND_MADE", "존재하지 않는 도안 제작 게시글에 대한 접근"),
