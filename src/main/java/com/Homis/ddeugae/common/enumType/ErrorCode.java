@@ -38,6 +38,7 @@ public enum ErrorCode {
     WRONG_PWD(HttpStatus.CONFLICT, "903_WRONG_PWD", "비밀번호가 틀렸습니다."),
     OWN_SALE_POST(HttpStatus.CONFLICT, "904_OWN_SALE_POST", "본인이 등록한 도안은 구매할 수 없습니다."),
     ALREADY_PURCHASE_POST(HttpStatus.CONFLICT, "905_ALREADY_PURCHASE_POST","이미 구매한 도안은 재구매할 필요가 없습니다."),
+    ALREADY_DELETED_SALE(HttpStatus.CONFLICT, "906_ALREADY_DELETED_SALE", "이미 삭제한 판매 게시글은 삭제 불필요"),
 
     // ---500
     SALT_HASH_PROB(HttpStatus.INTERNAL_SERVER_ERROR, "001_SALT_HASH_PROB", "salt:hash 구조가 아님"),
