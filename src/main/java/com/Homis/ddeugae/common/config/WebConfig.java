@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns(
                         "http://localhost:5173",
-                        "https://*.ngrok-free.dev")
+                        "https://*.ngrok-free.dev",
+                        "https://homis-fe.vercel.app")
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .allowedHeaders("*")
                 .allowCredentials(true)
