@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:5173",
                         "https://*.ngrok-free.dev",
                         "https://homis-fe.vercel.app")
-                .allowedMethods("GET", "POST", "DELETE", "PUT")
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .exposedHeaders("Content-Disposition");
