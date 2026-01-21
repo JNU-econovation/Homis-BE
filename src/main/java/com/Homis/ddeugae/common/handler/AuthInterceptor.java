@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -29,6 +30,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+        // preflight 요청인 경우 허용
+        if(CorsUtils.isPreFlightRequest(request)){
+            return true;
+        }
+
         // 화이트리스트 URI
         if (request.getRequestURI().equals("/api/auth/refresh")) {
             return true; // refresh api는 accessToken 없이 통과
